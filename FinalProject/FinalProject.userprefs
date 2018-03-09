@@ -1,15 +1,15 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MenuController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\CameraContainer.cs">
     <Files>
-      <File FileName="Assets\MenuController.cs" Line="88" Column="48" />
+      <File FileName="Assets\MenuController.cs" Line="215" Column="1" />
       <File FileName="Assets\CameraContainer.cs" Line="1" Column="1" />
+      <File FileName="Assets\OVR\Scripts\Util\OVRPlayerController.cs" Line="310" Column="20" />
+      <File FileName="Assets\Util.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="D:\james165\FinalProject\Assets\MenuController.cs" line="88" column="49" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
