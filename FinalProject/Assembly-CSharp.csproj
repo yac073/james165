@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\CameraContainer.cs" />
+     <Compile Include="Assets\KeyBoardController.cs" />
      <Compile Include="Assets\MenuController.cs" />
      <Compile Include="Assets\OculusPlatform\Scripts\AchievementType.cs" />
      <Compile Include="Assets\OculusPlatform\Scripts\AndroidPlatform.cs" />
@@ -238,6 +239,7 @@
      <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarSkinnedMeshRenderPBSComponent.cs" />
      <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarSkinnedMeshRenderPBSV2Component.cs" />
      <Compile Include="Assets\OvrAvatar\Scripts\OvrAvatarTouchController.cs" />
+     <Compile Include="Assets\SphereController.cs" />
      <Compile Include="Assets\Util.cs" />
      <None Include="Assets\OvrAvatar\Samples\SocialStarter\README.txt" />
      <None Include="Assets\OvrAvatar\Content\Materials\AvatarMaterialStateShader.cginc" />

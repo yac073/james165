@@ -197,6 +197,7 @@ public class MenuController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        Util.OnUsingKeyboardStatusChanged += Util_OnUsingKeyboardStatusChanged;
         _mainCanvasButtons = new List<Button>(MainCanvas.GetComponentsInChildren<Button>());
         AssignButtons(_mainCanvasButtons);
         _settingCanvasButtons = new List<Button>(SettingCanvas.GetComponentsInChildren<Button>());
@@ -209,9 +210,14 @@ public class MenuController : MonoBehaviour {
         PersonalCanvas.SetActive(false);
         CurrentCanvas = MainCanvas;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void Util_OnUsingKeyboardStatusChanged(object sender, Util.BoolEventArgs e)
+    {
+        MainCanvas.SetActive(!e.Result);
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (Util.IsSwiming)
         {
             return;

@@ -65,16 +65,36 @@ public static class Util
         set
         {
             _isSwiming = value;
-            if (OnSwimingStatusChanged == null)
+            if (OnSwimmingStatusChanged == null)
             {
                 return;
             }
-            OnSwimingStatusChanged.Invoke(null, new BoolEventArgs
+            OnSwimmingStatusChanged.Invoke(null, new BoolEventArgs
             {
-                IsSwiming = value
+                Result = value
             });
         }
     }
+
+    private static bool _isUsingKeyboard;
+    public static bool IsUsingKeyboard
+    {
+        get { return _isUsingKeyboard; }
+        set
+        {
+            _isUsingKeyboard = value;
+            if (OnUsingKeyboardStatusChanged == null)
+            {
+                return;
+            }
+            OnUsingKeyboardStatusChanged.Invoke(null, new BoolEventArgs
+            {
+                Result = value
+            });
+        }
+    }    
+
+
     public static float AirLeft { get; set; }
     public static float AirLosingSpeedPreSecond { get; set; }
     public static float PowerLeft { get; set; }    
@@ -82,6 +102,8 @@ public static class Util
     public static float AirContainerLeft { get; set; }
     public static float MaxAirContainer { get; set; }
     public static float BleedingTimeLeft { get; set; }
+
+    public static string UserName { get; set; }
 
     //constant
     public static float MaxPower = 1000.0f;
@@ -91,8 +113,10 @@ public static class Util
 
     public class BoolEventArgs : EventArgs
     {
-        public bool IsSwiming { get; set; }
+        public bool Result { get; set; }
     }
 
-    public static event EventHandler<BoolEventArgs> OnSwimingStatusChanged;
+    public static event EventHandler<BoolEventArgs> OnSwimmingStatusChanged;
+    public static event EventHandler<BoolEventArgs> OnUsingKeyboardStatusChanged;
+
 }
