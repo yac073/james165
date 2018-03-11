@@ -30,6 +30,10 @@ public class MenuController : MonoBehaviour {
     public Button EnvironmentVolumnButton { get; private set; }
     public Button SettingBackButton { get; private set; }
 
+    private List<Button> _shoppingCanvasButtons;
+    public Button ShoppingBackButton { get; private set; }
+
+
     public Material ActiveMaterial;
     public Material DeactiveMaterial;
     enum CanvasType
@@ -200,6 +204,7 @@ public class MenuController : MonoBehaviour {
                 EnvironmentVolumnButton.GetComponentInChildren<CustomSlider>().value = Util.EnvironmentVolumn;
                 break;
             case "SettingBackButton":
+            case "ShoppingBackButton":
                 CurrentCanvas = MainCanvas;
                 break;
             case "DiveButton":
@@ -226,6 +231,8 @@ public class MenuController : MonoBehaviour {
         AssignButtons(_mainCanvasButtons);
         _settingCanvasButtons = new List<Button>(SettingCanvas.GetComponentsInChildren<Button>());
         AssignButtons(_settingCanvasButtons);
+        _shoppingCanvasButtons = new List<Button>(ShoppingCanvas.GetComponentsInChildren<Button>());
+        AssignButtons(_shoppingCanvasButtons);
 
         MainCanvas.SetActive(true);
         ShoppingCanvas.SetActive(false);
@@ -245,7 +252,7 @@ public class MenuController : MonoBehaviour {
         MainCanvas.SetActive(!e.Result);
         if (!e.Result) {
             if (TopicButton == null || string.IsNullOrEmpty(Util.UserName)) { return; }
-            TopicButton.GetComponentInChildren<Text>().text += ", " + Util.UserName;
+            TopicButton.GetComponentInChildren<Text>().text = "Welcome back, " + Util.UserName;
         }
     }
 
