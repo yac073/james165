@@ -31,8 +31,19 @@ public class SphereController : MonoBehaviour {
     private Collider _activeCollider;
     private string _lastInput;
 
+    private int _pressTime;
+
+    private bool _pressing { get { return _pressTime > 1; } }
+    private bool _justPressed { get { return _pressTime == 1; } }
+
+    private GameObject _tempMenuSelection;
+    private Vector3 _lastPointingDirection;    
+
+    public MenuController MC;
+
 	// Use this for initialization
 	void Start () {
+        _pressTime = 0;
         _inputLock = 0f;
         _activeCollider = null;
         if (ThisObj != null)
@@ -57,20 +68,50 @@ public class SphereController : MonoBehaviour {
         }
         var cc = Physics.OverlapSphere(ThisObj.transform.position, 0.5f * ThisObj.transform.localScale.x);
         List<Collider> colliders = RemoveBadColliders(cc);
+
+        bool isPressed =
+            OVRInput.Get(_isLeft ? OVRInput.RawButton.LIndexTrigger : OVRInput.RawButton.RIndexTrigger) &&
+            OVRInput.Get(_isLeft ? OVRInput.RawButton.LHandTrigger : OVRInput.RawButton.RHandTrigger);
+        if (isPressed)
+        {
+            _pressTime++;
+            if (_pressTime > 1000) { _pressTime = 2; }
+        } else
+        {
+            _pressTime = 0;
+        }
+        _inputLock = isPressed ? _inputLock : 0;
+
         ResetHighlightedObj();
         HighlightSelectedObj(colliders);
                 
-        bool isPressed = 
-            OVRInput.Get(_isLeft ? OVRInput.RawButton.LIndexTrigger : OVRInput.RawButton.RIndexTrigger) &&
-            OVRInput.Get(_isLeft ? OVRInput.RawButton.LHandTrigger : OVRInput.RawButton.RHandTrigger);
+
+        if (isPressed && _tempMenuSelection != null && _activeCollider != null)
+        {
+            var deltaX = (ThisObj.transform.position - _lastPointingDirection).x;
+            MC.ModifySlider(deltaX / 3, _tempMenuSelection.GetComponent<Button>());
+        }
         if (isPressed && _activeCollider != null)
         {
             PressHighlightedObj();
         }
+        if (!isPressed)
+        {
+            if (_tempMenuSelection != null && _activeCollider != null)
+            {
+                if (_tempMenuSelection == _activeCollider.gameObject)
+                {
+                    MC.ClickButton(_tempMenuSelection.GetComponent<Button>());
+                }
+            }
+            _tempMenuSelection = null;
+        }
+        _lastPointingDirection = ThisObj.transform.position;
     }
 
     private void PressHighlightedObj()
     {
+        //keyboard part
         Renderer rend = _activeCollider.GetComponent<Renderer>();
         if (rend != null)
         {
@@ -104,28 +145,49 @@ public class SphereController : MonoBehaviour {
                         }
                     }
                     _lastInput = rend.name;
-                    _inputLock = 2.0f;
+                    _inputLock = 1.0f;
                 }
             }
         }
+        //menu part
+        Image img = _activeCollider.gameObject.GetComponent<Image>();
+        if (img != null)
+        {
+            //img.material = PressedMaterialButton;
+            _tempMenuSelection = _activeCollider.gameObject;
+        }
     }
 
-    private static List<Collider> RemoveBadColliders(Collider[] cc)
+    private bool CheckIfNameValid(string s)
+    {        
+        var blackList = new List<string>
+        {
+            "LSphere",
+            "RSphere",
+            "OVRPlayerController",
+            "Cube"
+        };
+        return !blackList.Contains(s);
+    }
+
+    private List<Collider> RemoveBadColliders(Collider[] cc)
     {
         var colliders = new List<Collider>();
         foreach (var c in cc)
         {
-            if (c.gameObject.name != "LSphere" && c.gameObject.name != "RSphere" && c.gameObject.name != "OVRPlayerController")
+            if (CheckIfNameValid(c.gameObject.name))
             {
                 colliders.Add(c);
             }
-        }
+        }        
 
         return colliders;
     }
 
     private void HighlightSelectedObj(List<Collider> colliders)
     {
+        var oldCollider = _activeCollider;
+        _activeCollider = null;
         if (colliders.Count > 0)
         {
             _activeCollider = colliders[0];
@@ -139,16 +201,33 @@ public class SphereController : MonoBehaviour {
                     dist = tempDist;
                 }
             }
+            if (_pressing)
+            {
+                if (oldCollider != _activeCollider)
+                {
+                    _activeCollider = null;
+                    _tempMenuSelection = null;
+                }
+            }
             if (_activeCollider == null)
             {
                 return;
             }
             Renderer rend = _activeCollider.GetComponent<Renderer>();
+            Image img = _activeCollider.gameObject.GetComponent<Image>();
             if (rend != null)
             {
                 if (!_activeCollider.gameObject.name.Contains("Button"))
                 {
                     rend.material = ColliderMaterialKey;
+                }                
+            }
+
+            if (img != null)
+            {
+                if (_activeCollider.gameObject.name.Contains("Button"))
+                {
+                    img.material = ColliderMaterialButton;
                 }
             }
         }
@@ -161,6 +240,7 @@ public class SphereController : MonoBehaviour {
             return;
         }
         Renderer rend = _activeCollider.GetComponent<Renderer>();
+        Image img = _activeCollider.gameObject.GetComponent<Image>();
         if ( rend!= null)
         {
             if (!_activeCollider.gameObject.name.Contains("Button"))
@@ -168,7 +248,13 @@ public class SphereController : MonoBehaviour {
                 rend.material = NormalMaterialKey;
             }
         }
-        _activeCollider = null;
+        if (img != null)
+        {
+            if (_activeCollider.gameObject.name.Contains("Button"))
+            {
+                img.material = NormalMaterialButton;
+            }
+        }
     }
 
     void OnTriggerEnter(Collider other)

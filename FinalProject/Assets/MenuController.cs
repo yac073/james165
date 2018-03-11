@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -173,6 +174,15 @@ public class MenuController : MonoBehaviour {
             {
                 property.SetValue(this, button, null);
             }
+            var collider = button.gameObject.AddComponent<BoxCollider>();
+            collider.size = new Vector3(((RectTransform)button.transform).sizeDelta.x,
+                ((RectTransform)button.transform).sizeDelta.y, 0.5f);
+
+            if (button.name.Contains("Volumn"))
+            {
+                collider.size = new Vector3(collider.size.x * 2, collider.size.y, collider.size.z);
+                collider.center = new Vector3(collider.size.x / 4 - 10, 0, 0);
+            }
         }
     }
 
@@ -185,6 +195,9 @@ public class MenuController : MonoBehaviour {
                 break;
             case "SettingButton":
                 CurrentCanvas = SettingCanvas;
+                MainVolumnButton.GetComponentInChildren<CustomSlider>().value = Util.MainVolumn;
+                BgmVolumnButton.GetComponentInChildren<CustomSlider>().value = Util.BgmVolumn;
+                EnvironmentVolumnButton.GetComponentInChildren<CustomSlider>().value = Util.EnvironmentVolumn;
                 break;
             case "SettingBackButton":
                 CurrentCanvas = MainCanvas;
@@ -195,8 +208,19 @@ public class MenuController : MonoBehaviour {
         }
     }
 
+    public void ModifySlider(float delta, Button b)
+    {
+        var slider = b.GetComponentInChildren<CustomSlider>();
+        if (slider != null)
+        {
+            slider.value += delta;
+            //slider.handleRect.localScale = new Vector3(slider.value + 1.0f, slider.value + 1.0f, slider.value + 1.0f);
+        }
+    }
+
     // Use this for initialization
     void Start () {
+        DebugPreFix();
         Util.OnUsingKeyboardStatusChanged += Util_OnUsingKeyboardStatusChanged;
         _mainCanvasButtons = new List<Button>(MainCanvas.GetComponentsInChildren<Button>());
         AssignButtons(_mainCanvasButtons);
@@ -211,9 +235,18 @@ public class MenuController : MonoBehaviour {
         CurrentCanvas = MainCanvas;
 	}
 
+    private void DebugPreFix()
+    {
+        
+    }
+
     private void Util_OnUsingKeyboardStatusChanged(object sender, Util.BoolEventArgs e)
     {
         MainCanvas.SetActive(!e.Result);
+        if (!e.Result) {
+            if (TopicButton == null || string.IsNullOrEmpty(Util.UserName)) { return; }
+            TopicButton.GetComponentInChildren<Text>().text += ", " + Util.UserName;
+        }
     }
 
     // Update is called once per frame

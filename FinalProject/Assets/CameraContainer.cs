@@ -6,8 +6,7 @@ public class CameraContainer : MonoBehaviour {
 
     public GameObject LeftHandSphere;
     public GameObject RightHandShpere;
-
-    public Material SphereMaterial;
+    public GameObject Wall;
 
     public Transform LeftHandTransform;
     public Transform RightHandTransform;
@@ -32,14 +31,14 @@ public class CameraContainer : MonoBehaviour {
         }
         else
         {
-            LeftHandSphere.transform.localScale = new Vector3(.3f, .3f, .3f);
-            RightHandShpere.transform.localScale = new Vector3(.3f, .3f, .3f);
+            LeftHandSphere.transform.localScale = new Vector3(.9f, .9f, .9f);
+            RightHandShpere.transform.localScale = new Vector3(.9f, .9f, .9f);
         }
     }
 
     private bool _shouldLeftHandUseGoGo {
         get {
-            return (LeftHandTransform.position - HeadTransform.position).magnitude > 0.6f && ! Util.IsUsingKeyboard;
+            return (LeftHandTransform.position - HeadTransform.position).magnitude > 0.5f && ! Util.IsUsingKeyboard;
         }
     }
 
@@ -47,7 +46,7 @@ public class CameraContainer : MonoBehaviour {
     {
         get
         {
-            return (RightHandTransform.position - HeadTransform.position).magnitude > 0.6f && !Util.IsUsingKeyboard;
+            return (RightHandTransform.position - HeadTransform.position).magnitude > 0.5f && !Util.IsUsingKeyboard;
         }
     }
 
@@ -56,7 +55,16 @@ public class CameraContainer : MonoBehaviour {
         var dist = (RightHandTransform.position - HeadTransform.position).magnitude;
         if (_shouldRightHandUseGoGo)
         {
-            RightHandShpere.transform.position = RightHandTransform.position + 300 * (dist - 0.6f) * (dist - 0.6f) * RightHandShpere.transform.forward;
+            RightHandShpere.transform.position = RightHandTransform.position + 1000 * (dist - 0.5f) * (dist - 0.5f) * RightHandShpere.transform.forward;
+            var objs = Physics.RaycastAll(RightHandTransform.position, RightHandShpere.transform.forward,
+                (RightHandShpere.transform.position - RightHandTransform.position).magnitude);
+            foreach(var obj in objs)
+            {
+                if (obj.collider.gameObject.name == "Cube")
+                {
+                    RightHandShpere.transform.position = obj.point;
+                }
+            }
         }
         else
         {
@@ -66,7 +74,16 @@ public class CameraContainer : MonoBehaviour {
         dist = (LeftHandTransform.position - HeadTransform.position).magnitude;
         if (_shouldLeftHandUseGoGo)
         {
-            LeftHandSphere.transform.position = LeftHandTransform.position + 300 * (dist - 0.6f) * (dist - 0.6f) * LeftHandSphere.transform.forward;
+            LeftHandSphere.transform.position = LeftHandTransform.position + 1000 * (dist - 0.5f) * (dist - 0.5f) * LeftHandSphere.transform.forward;
+            var objs = Physics.RaycastAll(LeftHandTransform.position, LeftHandSphere.transform.forward,
+                (LeftHandSphere.transform.position - LeftHandTransform.position).magnitude);
+            foreach (var obj in objs)
+            {
+                if (obj.collider.gameObject.name == "Cube")
+                {
+                    LeftHandSphere.transform.position = obj.point;
+                }
+            }
         }
         else
         {

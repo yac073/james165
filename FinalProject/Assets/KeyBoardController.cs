@@ -7,9 +7,11 @@ public class KeyBoardController : MonoBehaviour {
 
     public GameObject KeyCap;
     public GameObject Keyboard;
+    public GameObject InputCanvas;
 
 	// Use this for initialization
 	void Start () {
+        Util.OnUsingKeyboardStatusChanged += Util_OnUsingKeyboardStatusChanged;
         var qwert = "QWERTYUIOP";
 		for (int i = 0; i < qwert.Length; i++)
         {
@@ -98,9 +100,15 @@ public class KeyBoardController : MonoBehaviour {
         }
         space.name = "SPACE";
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void Util_OnUsingKeyboardStatusChanged(object sender, Util.BoolEventArgs e)
+    {
+        Keyboard.SetActive(e.Result);
+        InputCanvas.SetActive(e.Result);
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 }

@@ -94,7 +94,7 @@ public static class Util
         }
     }    
 
-
+    //gameplay
     public static float AirLeft { get; set; }
     public static float AirLosingSpeedPreSecond { get; set; }
     public static float PowerLeft { get; set; }    
@@ -103,7 +103,57 @@ public static class Util
     public static float MaxAirContainer { get; set; }
     public static float BleedingTimeLeft { get; set; }
 
+    //menu
     public static string UserName { get; set; }
+
+    private static float _mainVolumn;
+    private static float _bgmVolumn;
+    private static float _environmentVolumn;
+
+    public static float MainVolumn {
+        get { return _mainVolumn; }
+        set
+        {
+            _mainVolumn = value;
+            if (OnMainVolumnChanged != null)
+            {
+                OnMainVolumnChanged.Invoke(null, new FloatEventArgs
+                {
+                    Result = _mainVolumn
+                });
+            }
+        }
+    }
+    public static float BgmVolumn
+    {
+        get { return _bgmVolumn; }
+        set
+        {
+            _bgmVolumn = value;
+            if (OnBgmVolumnChanged != null)
+            {
+                OnBgmVolumnChanged.Invoke(null, new FloatEventArgs
+                {
+                    Result = _bgmVolumn
+                });
+            }
+        }
+    }
+    public static float EnvironmentVolumn
+    {
+        get { return _environmentVolumn; }
+        set
+        {
+            _environmentVolumn = value;
+            if (OnEnvironmentVolumnChanged != null)
+            {
+                OnEnvironmentVolumnChanged.Invoke(null, new FloatEventArgs
+                {
+                    Result = _environmentVolumn
+                });
+            }
+        }
+    }
 
     //constant
     public static float MaxPower = 1000.0f;
@@ -116,7 +166,15 @@ public static class Util
         public bool Result { get; set; }
     }
 
+    public class FloatEventArgs : EventArgs
+    {
+        public float Result { get; set; }
+    }
+
     public static event EventHandler<BoolEventArgs> OnSwimmingStatusChanged;
     public static event EventHandler<BoolEventArgs> OnUsingKeyboardStatusChanged;
+    public static event EventHandler<FloatEventArgs> OnMainVolumnChanged;
+    public static event EventHandler<FloatEventArgs> OnBgmVolumnChanged;
+    public static event EventHandler<FloatEventArgs> OnEnvironmentVolumnChanged;
 
 }
