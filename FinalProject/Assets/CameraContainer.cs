@@ -132,6 +132,20 @@ public class CameraContainer : MonoBehaviour {
                 v += a * Time.deltaTime;
                 ThisObj.transform.position = new Vector3(ThisObj.transform.position.x, ThisObj.transform.position.y - v * Time.deltaTime, ThisObj.transform.position.z);
             }
+            var xpos = ThisObj.transform.position.x;
+            xpos = Mathf.Clamp(xpos, -500, 500);
+
+            var zpos = ThisObj.transform.position.z;
+            zpos = Mathf.Clamp(zpos, -500, 500);
+
+            var ypos = ThisObj.transform.position.y;
+            var pos = new Vector3(xpos, 0, zpos);
+            if (ypos < Terrain.activeTerrain.SampleHeight(pos) + 2)
+            {
+                ypos = Terrain.activeTerrain.SampleHeight(pos) + 2;
+            }
+            pos.y = ypos;
+            this.transform.position = pos;
         }
     }
 }
