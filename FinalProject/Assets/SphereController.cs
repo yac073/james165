@@ -25,6 +25,8 @@ public class SphereController : MonoBehaviour {
 
     public Material PressedMaterialKey;
     public Material PressedMaterialButton;
+
+    public Material DeactiveMaterial;
     public Text Input;
 
     private float _inputLock;
@@ -225,7 +227,7 @@ public class SphereController : MonoBehaviour {
 
             if (img != null)
             {
-                if (_activeCollider.gameObject.name.Contains("Button"))
+                if (_activeCollider.gameObject.name.Contains("Button") && img.material != DeactiveMaterial)
                 {
                     img.material = ColliderMaterialButton;
                 }
@@ -250,7 +252,7 @@ public class SphereController : MonoBehaviour {
         }
         if (img != null)
         {
-            if (_activeCollider.gameObject.name.Contains("Button"))
+            if (_activeCollider.gameObject.name.Contains("Button") && img.material != DeactiveMaterial)
             {
                 img.material = NormalMaterialButton;
             }

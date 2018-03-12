@@ -32,10 +32,23 @@ public class MenuController : MonoBehaviour {
 
     private List<Button> _shoppingCanvasButtons;
     public Button ShoppingBackButton { get; private set; }
+    public Button BreatherImage { get; private set; }
+    public Button ScannerImage { get; private set; }
+    public Button TorchImage { get; private set; }
+    public Button WeaponImage { get; private set; }
+    public Button BreatherButtonPurchaser { get; private set; }
+    public Button ScannerButtonPurchaser { get; private set; }
+    public Button TorchButtonPurchaser { get; private set; }
+    public Button WeaponButtonPurchaser { get; private set; }
+    public Button BankMoney { get; private set; }
+
+    private List<Button> _personalCanvasButton;
+    public Button PersonalBackButton { get; private set; }
 
 
     public Material ActiveMaterial;
     public Material DeactiveMaterial;
+    
     enum CanvasType
     {
         Main = 0,
@@ -43,21 +56,6 @@ public class MenuController : MonoBehaviour {
         Inventory,
         Setting,
         Personal
-    }
-
-    private Button _currentActiveButton;
-    public Button CurrentActiveButton
-    {
-        get { return _currentActiveButton; }
-        set
-        {
-            if (_currentActiveButton != null)
-            {
-				_currentActiveButton.image.material = DeactiveMaterial;
-            }
-            _currentActiveButton = value;
-			_currentActiveButton.image.material = ActiveMaterial;
-        }
     }
 
     private GameObject _currentCanvas;
@@ -79,6 +77,7 @@ public class MenuController : MonoBehaviour {
                     break;
                 case "ShoppingCanvasGameObject":
                     CurrentCanvasType = CanvasType.Shopping;
+                    RefreshShoppingCanvas();
                     break;
                 case "InventoryCanvasGameObject":
                     CurrentCanvasType = CanvasType.Inventory;
@@ -92,6 +91,40 @@ public class MenuController : MonoBehaviour {
             }
         }
     }
+
+    private void RefreshShoppingCanvas()
+    {
+        foreach (var button in _shoppingCanvasButtons)
+        {
+            if (button.name.Contains("ButtonPurchaser"))
+            {                
+                button.gameObject.GetComponent<Image>().material = ActiveMaterial;
+                var itemName = button.name.Substring(0, button.name.IndexOf("ButtonPurchase")) + "Level";
+                var property = typeof(Util).GetProperty(itemName, System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+                var price = 10 * Math.Pow(2, (int)property.GetValue(null, null) * 3);
+                if (Util.Balance < price)
+                {
+                    button.gameObject.GetComponent<Image>().material = DeactiveMaterial;
+                }
+                if ((int)property.GetValue(null, null) == 0)
+                {
+                    button.GetComponentInChildren<Text>().text = "Buy\n$ " + price;
+                }
+                else if ((int)property.GetValue(null, null) + 1 <= 4)
+                {
+                    button.GetComponentInChildren<Text>().text = "Upgrade Lv" + ((int)property.GetValue(null, null) + 1) + "\n$ " + price;
+                }
+                else
+                {
+                    button.GetComponentInChildren<Text>().text = "Max Level";
+                    button.name = button.name.Substring(0, button.name.IndexOf("ButtonPurchase")) + "\nMaxLevel";
+                    button.gameObject.GetComponent<Image>().material = DeactiveMaterial;
+                }
+            }
+        }
+        BankMoney.GetComponentInChildren<Text>().text = "Balance\n$ " + Util.Balance;
+    }
+
     CanvasType _currentCanvasType;
     CanvasType CurrentCanvasType {
         get { return _currentCanvasType; }
@@ -113,27 +146,6 @@ public class MenuController : MonoBehaviour {
 				case CanvasType.Shopping:
 					break;
 			}
-        }
-    }
-
-    private void ActiveTopLeftButton(List<Button> buttons)
-    {
-        var topleft = new Vector3(100, 100, 100);
-        _currentMin = new Vector3(100, 100, 100);
-        _currentMax = new Vector3(-100, -100, -100);
-        Button b;
-        foreach (var button in buttons)
-        {
-            var anchorPoint = ((RectTransform)(button.transform)).localPosition;
-            if (anchorPoint.x < topleft.x || anchorPoint.y < topleft.y || anchorPoint.z < topleft.z)
-            {
-                topleft = anchorPoint;
-                b = button;
-                CurrentActiveButton = b;
-                _anchorLocation = anchorPoint;
-            }
-            //AssignMin(anchorPoint);
-           // AssignMax(anchorPoint);
         }
     }
 
@@ -192,6 +204,7 @@ public class MenuController : MonoBehaviour {
 
     public void ClickButton(Button b)
     {
+        double price = 0;
         switch (b.name)
         {
             case "ShoppingButton":
@@ -203,12 +216,44 @@ public class MenuController : MonoBehaviour {
                 BgmVolumnButton.GetComponentInChildren<CustomSlider>().value = Util.BgmVolumn;
                 EnvironmentVolumnButton.GetComponentInChildren<CustomSlider>().value = Util.EnvironmentVolumn;
                 break;
+            case "TopicButton":
+                break;
             case "SettingBackButton":
             case "ShoppingBackButton":
+            case "PersonalBackButton":
                 CurrentCanvas = MainCanvas;
                 break;
             case "DiveButton":
                 Util.IsSwiming = true;
+                Util.CurrentTerrainMode = Util.TerrainMode.Sea;
+                break;
+            case "BreatherButtonPurchaser":
+                price = 10 * Math.Pow(2, Util.BreatherLevel * 3);
+                if (price > Util.Balance) { break; }
+                Util.BreatherLevel++;
+                Util.Balance -= (int)price;
+                RefreshShoppingCanvas();
+                break;
+            case "ScannerButtonPurchaser":
+                price = 10 * Math.Pow(2, Util.ScannerLevel * 3);
+                if (price > Util.Balance) { break; }
+                Util.ScannerLevel++;
+                Util.Balance -= (int)price;
+                RefreshShoppingCanvas();
+                break;
+            case "WeaponButtonPurchaser":
+                price = 10 * Math.Pow(2, Util.WeaponLevel * 3);
+                if (price > Util.Balance) { break; }
+                Util.WeaponLevel++;
+                Util.Balance -= (int)price;
+                RefreshShoppingCanvas();
+                break;
+            case "TorchButtonPurchaser":
+                price = 10 * Math.Pow(2, Util.TorchLevel * 3);
+                if (price > Util.Balance) { break; }
+                Util.TorchLevel++;
+                Util.Balance -= (int)price;
+                RefreshShoppingCanvas();
                 break;
         }
     }
@@ -233,6 +278,8 @@ public class MenuController : MonoBehaviour {
         AssignButtons(_settingCanvasButtons);
         _shoppingCanvasButtons = new List<Button>(ShoppingCanvas.GetComponentsInChildren<Button>());
         AssignButtons(_shoppingCanvasButtons);
+        _personalCanvasButton = new List<Button>(PersonalCanvas.GetComponentsInChildren<Button>());
+        AssignButtons(_personalCanvasButton);
 
         MainCanvas.SetActive(true);
         ShoppingCanvas.SetActive(false);
@@ -244,7 +291,8 @@ public class MenuController : MonoBehaviour {
 
     private void DebugPreFix()
     {
-        
+        Util.UserName = "aaa";
+        Util.Balance = 1000;
     }
 
     private void Util_OnUsingKeyboardStatusChanged(object sender, Util.BoolEventArgs e)

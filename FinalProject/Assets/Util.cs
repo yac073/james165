@@ -103,6 +103,29 @@ public static class Util
     public static float MaxAirContainer { get; set; }
     public static float BleedingTimeLeft { get; set; }
 
+    //terrain
+    public enum TerrainMode
+    {
+        Normal = 0,
+        Sea
+    }
+    private static TerrainMode _currentTerrainMode;
+    public static TerrainMode CurrentTerrainMode
+    {
+        get { return _currentTerrainMode; }
+        set
+        {
+            _currentTerrainMode = value;
+            if (OnTerrainDataChanged != null)
+            {
+                OnTerrainDataChanged.Invoke(null, new TerrainModeEventArgs
+                {
+                    Result = _currentTerrainMode
+                });
+            }
+        }
+    }
+
     //menu
     public static string UserName { get; set; }
 
@@ -155,6 +178,13 @@ public static class Util
         }
     }
 
+    //item levels
+    public static int BreatherLevel { get; set; }
+    public static int ScannerLevel { get; set; }
+    public static int TorchLevel { get; set; }
+    public static int WeaponLevel { get; set; }
+    public static int Balance { get; set; }
+
     //constant
     public static float MaxPower = 1000.0f;
     public static float MaxAir = 60.0f;
@@ -171,10 +201,16 @@ public static class Util
         public float Result { get; set; }
     }
 
+    public class TerrainModeEventArgs : EventArgs
+    {
+        public TerrainMode Result { get; set; }
+    }
+
     public static event EventHandler<BoolEventArgs> OnSwimmingStatusChanged;
     public static event EventHandler<BoolEventArgs> OnUsingKeyboardStatusChanged;
     public static event EventHandler<FloatEventArgs> OnMainVolumnChanged;
     public static event EventHandler<FloatEventArgs> OnBgmVolumnChanged;
     public static event EventHandler<FloatEventArgs> OnEnvironmentVolumnChanged;
+    public static event EventHandler<TerrainModeEventArgs> OnTerrainDataChanged;
 
 }
