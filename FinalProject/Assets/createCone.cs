@@ -17,7 +17,6 @@ public class createCone : MonoBehaviour {
     Vector3 pos;
     float angle = 0.0f;
     float angleAmount = 0.0f;
-
     // Use this for initialization
     void Start () {
         mesh = new Mesh();

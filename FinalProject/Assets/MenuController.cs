@@ -292,7 +292,7 @@ public class MenuController : MonoBehaviour {
     private void DebugPreFix()
     {
         Util.UserName = "aaa";
-        Util.Balance = 1000;
+        Util.Balance = 1000;        
     }
 
     private void Util_OnUsingKeyboardStatusChanged(object sender, Util.BoolEventArgs e)

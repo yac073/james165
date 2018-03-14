@@ -464,8 +464,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 48571371}
-  m_LocalRotation: {x: -0.24819203, y: 0.09309485, z: 0.023970794, w: 0.96392924}
-  m_LocalPosition: {x: -45.395084, y: 46.732613, z: 21.562647}
+  m_LocalRotation: {x: 0.10532019, y: 0.13503014, z: 0.014435525, w: -0.9851224}
+  m_LocalPosition: {x: -40.561707, y: 30.392143, z: 34.3509}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1554,6 +1554,34 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.08, y: 0.2, z: 0.01}
   m_Center: {x: 1.17, y: 1.85, z: 0.09}
+--- !u!1 &360688047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 360688048}
+  m_Layer: 0
+  m_Name: TempObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &360688048
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 360688047}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1814587408}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &459278030
 GameObject:
   m_ObjectHideFlags: 0
@@ -6220,6 +6248,48 @@ MonoBehaviour:
   DeactiveMaterial: {fileID: 2100000, guid: c444198db73828042bba58ff5f5d5db9, type: 2}
   Input: {fileID: 315033571}
   MC: {fileID: 1094250452}
+--- !u!1001 &1709999079
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1057257280}
+    m_Modifications:
+    - target: {fileID: 4037666351575120, guid: 7a561beb3b8504140a6bd33b362b9625, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037666351575120, guid: 7a561beb3b8504140a6bd33b362b9625, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037666351575120, guid: 7a561beb3b8504140a6bd33b362b9625, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037666351575120, guid: 7a561beb3b8504140a6bd33b362b9625, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037666351575120, guid: 7a561beb3b8504140a6bd33b362b9625, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037666351575120, guid: 7a561beb3b8504140a6bd33b362b9625, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037666351575120, guid: 7a561beb3b8504140a6bd33b362b9625, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037666351575120, guid: 7a561beb3b8504140a6bd33b362b9625, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 7a561beb3b8504140a6bd33b362b9625, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1721927223
 GameObject:
   m_ObjectHideFlags: 0
@@ -6654,6 +6724,7 @@ Transform:
   m_Children:
   - {fileID: 2107511221}
   - {fileID: 1685396511}
+  - {fileID: 360688048}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 39.9, z: 0}
@@ -6704,9 +6775,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cone: {fileID: 1671541001}
   bodyTransform: {fileID: 1814587408}
-  Body: {fileID: 1814587410}
   LHand: {fileID: 1530079485}
   RHand: {fileID: 1057257280}
+  TempObject: {fileID: 360688047}
 --- !u!1 &1818095322
 GameObject:
   m_ObjectHideFlags: 0
@@ -8012,3 +8083,4 @@ MonoBehaviour:
   Seaweed: {fileID: 1589378079524998, guid: 2ffb0d8e8c074ce4b9a78e3a510d3ba8, type: 2}
   Whale: {fileID: 1592056824805830, guid: 22724a173f1ef194283c4f78684691ad, type: 2}
   UserPosition: {fileID: 1814587408}
+  PC: {fileID: 1814587411}
