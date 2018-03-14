@@ -33,9 +33,11 @@ public class UnderwaterEffect : MonoBehaviour
     {
         if (User.position.y < underwaterLevel)
         {
-            RenderSettings.fog = true;
-            RenderSettings.fogColor = new Color(0, 0.4f, 0.7f, 0.6f);
-            RenderSettings.fogDensity = 0.1f;
+            cam.backgroundColor = Color.Lerp(new Color(0, 0.4f, 0.7f, 0.6f), Color.black, (55 - User.position.y) / 55);
+            //cam.backgroundColor = Color.clear;
+            RenderSettings.fog = true;            
+            RenderSettings.fogColor = Color.Lerp(new Color(0, 0.4f, 0.7f, 0.6f), Color.black, (55 - User.position.y) / 55);
+            RenderSettings.fogDensity = Mathf.Lerp(0.05f, 0.4f, (55 - User.position.y) / 55);
             RenderSettings.skybox = noSkybox;
         }
         else
