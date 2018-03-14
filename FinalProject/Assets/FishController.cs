@@ -23,12 +23,12 @@ public class FishController : MonoBehaviour {
     public GameObject Seaweed;
     public GameObject Whale;
 
-    public Transform UserPosition;
+    public Transform UserPosition;    
 
 	// Use this for initialization
 	void Start () {
-        GoldFish.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-        BadFish.transform.localScale = new Vector3(2f, 2f, 2f);
+        GoldFish.transform.localScale = new Vector3(0.02f, 0.02f, 0.02f);
+        BadFish.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         Whale.transform.localScale = new Vector3(2f, 2f, 2f);
         _fishes = new List<AdvanceFish>();
         _fishList = new List<AdvanceFish> {
@@ -80,7 +80,12 @@ public class FishController : MonoBehaviour {
         for (int i = 0; i < _fishes.Count; i++)
         {
             var fish = _fishes[i];
+            var trr = Terrain.activeTerrain;
             var terrainHeight = Terrain.activeTerrain.SampleHeight(fish.fish.transform.position);
+            if (trr.name == "SeaTerrain")
+            {
+                terrainHeight -= 50;
+            }
             if (fish.fish.transform.position.y > fish.maxHeight)
             {
                 fish = GetNewDirection(rand, fish, -1);
@@ -96,17 +101,17 @@ public class FishController : MonoBehaviour {
             if (!fish.ShouldStay)
             {
                 fish.fish.transform.position = new Vector3(
-                    fish.fish.transform.position.x + fish.fish.transform.forward.x * fish.speed * Time.deltaTime / 10f,
-                    Mathf.Clamp(fish.fish.transform.position.y + fish.fish.transform.forward.y * fish.speed * Time.deltaTime / 10f, terrainHeight, fish.maxHeight),
-                    fish.fish.transform.position.z + fish.fish.transform.forward.z * fish.speed * Time.deltaTime / 10f
+                    fish.fish.transform.position.x + fish.fish.transform.forward.x * fish.speed * Time.deltaTime / 100f,
+                    Mathf.Clamp(fish.fish.transform.position.y + fish.fish.transform.forward.y * fish.speed * Time.deltaTime / 100f, terrainHeight, fish.maxHeight),
+                    fish.fish.transform.position.z + fish.fish.transform.forward.z * fish.speed * Time.deltaTime / 100f
                     );
             }
             if (fish.ShouldStickToGround)
             {
                 fish.fish.transform.position = new Vector3(
-                    fish.fish.transform.position.x + (fish.ShouldStay ? 0 : (fish.fish.transform.forward.x * fish.speed * Time.deltaTime / 10f)),
+                    fish.fish.transform.position.x + (fish.ShouldStay ? 0 : (fish.fish.transform.forward.x * fish.speed * Time.deltaTime / 300f)),
                     terrainHeight + 0.5f,
-                    fish.fish.transform.position.z + (fish.ShouldStay ? 0 : (fish.fish.transform.forward.z * fish.speed * Time.deltaTime / 10f))
+                    fish.fish.transform.position.z + (fish.ShouldStay ? 0 : (fish.fish.transform.forward.z * fish.speed * Time.deltaTime / 300f))
                     );
             }
             fish.moveLeft -= 1;
@@ -128,7 +133,7 @@ public class FishController : MonoBehaviour {
             fish.fish.transform.LookAt(fish.fish.transform.position + new Vector3(fish.direction.x, 0, fish.direction.z));
         }
         fish.speed = rand.Next() % 100;
-        fish.moveLeft = (rand.Next() % 1000);
+        fish.moveLeft = (rand.Next() % 10000);
         return fish;
     }
 }

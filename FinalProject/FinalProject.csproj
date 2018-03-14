@@ -322,6 +322,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\CameraContainer.cs" />
+    <Compile Include="Assets\createCone.cs" />
     <Compile Include="Assets\CustomSlider.cs" />
     <Compile Include="Assets\FishController.cs" />
     <Compile Include="Assets\KeyBoardController.cs" />

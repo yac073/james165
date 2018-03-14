@@ -6,6 +6,7 @@ TagManager:
   tags:
   - hasTask
   - Resting
+  - cone
   layers:
   - Default
   - TransparentFX

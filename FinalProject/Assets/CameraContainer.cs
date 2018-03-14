@@ -16,9 +16,11 @@ public class CameraContainer : MonoBehaviour {
 
     private GameObject _defaultTransformObj;
     private float a, v;
+    private bool _shouldPutInWater;
 	// Use this for initialization
 	void Start () {
         a = v = 0f;
+        _shouldPutInWater = false;
         Util.IsSwiming = false;
         Util.OnUsingKeyboardStatusChanged += Util_OnUsingKeyboardStatusChanged;
         Util.OnSwimmingStatusChanged += Util_OnSwimmingStatusChanged;
@@ -36,6 +38,7 @@ public class CameraContainer : MonoBehaviour {
     {
         if (e.Result)
         {
+            _shouldPutInWater = true;
             LeftHandSphere.transform.localScale = new Vector3(.1f, .1f, .1f);
             RightHandShpere.transform.localScale = new Vector3(.1f, .1f, .1f);
         }
@@ -126,12 +129,11 @@ public class CameraContainer : MonoBehaviour {
         }
         else
         {
-            if (ThisObj.transform.position.y > 53)
+            if (_shouldPutInWater)
             {
-                a = 9.8f;
-                v += a * Time.deltaTime;
-                ThisObj.transform.position = new Vector3(ThisObj.transform.position.x, ThisObj.transform.position.y - v * Time.deltaTime, ThisObj.transform.position.z);
+                PutInWater();
             }
+            
             var xpos = ThisObj.transform.position.x;
             xpos = Mathf.Clamp(xpos, -500, 500);
 
@@ -140,12 +142,29 @@ public class CameraContainer : MonoBehaviour {
 
             var ypos = ThisObj.transform.position.y;
             var pos = new Vector3(xpos, 0, zpos);
-            if (ypos < Terrain.activeTerrain.SampleHeight(pos) + 2)
+            if (ypos < Terrain.activeTerrain.SampleHeight(pos) -48)
             {
-                ypos = Terrain.activeTerrain.SampleHeight(pos) + 2;
+                ypos = Terrain.activeTerrain.SampleHeight(pos) -48;
             }
+            if (ypos > 55) { ypos = 55; }
             pos.y = ypos;
             this.transform.position = pos;
         }
+    }
+
+    private void PutInWater()
+    {
+        if (ThisObj.transform.position.y > 53)
+        {
+            a = 9.8f;
+            v += a * Time.deltaTime;
+            ThisObj.transform.position = new Vector3(ThisObj.transform.position.x, ThisObj.transform.position.y - v * Time.deltaTime, ThisObj.transform.position.z);
+        }
+        else
+        {
+            a = 0;
+            v = 0;
+            _shouldPutInWater = false;
+        }        
     }
 }

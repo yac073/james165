@@ -464,8 +464,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 48571371}
-  m_LocalRotation: {x: -0.028069412, y: -0.810073, z: 0.03891041, w: -0.5843628}
-  m_LocalPosition: {x: -136.88174, y: -18.0923, z: 217.84018}
+  m_LocalRotation: {x: -0.24819203, y: 0.09309485, z: 0.023970794, w: 0.96392924}
+  m_LocalPosition: {x: -45.395084, y: 46.732613, z: 21.562647}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3375,6 +3375,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1032504543}
+--- !u!4 &1057257280 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4000011212216358, guid: 84c8b8609f9bb434eaf5248f17ff1293,
+    type: 2}
+  m_PrefabInternal: {fileID: 1697005317}
 --- !u!1 &1094250447
 GameObject:
   m_ObjectHideFlags: 0
@@ -5466,6 +5471,11 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!4 &1530079485 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4000013364346644, guid: 84c8b8609f9bb434eaf5248f17ff1293,
+    type: 2}
+  m_PrefabInternal: {fileID: 1697005317}
 --- !u!1 &1579160327
 GameObject:
   m_ObjectHideFlags: 0
@@ -5832,6 +5842,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1627250701}
+--- !u!1 &1671541001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1671541002}
+  - component: {fileID: 1671541003}
+  m_Layer: 0
+  m_Name: cone
+  m_TagString: cone
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1671541002
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1671541001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.582688, y: 35.21114, z: 44.46238}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1671541003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1671541001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffd038ee67e138e42b44554d9f28d1c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cone: {fileID: 1671541001}
+  bodyTransform: {fileID: 1814587408}
+  material: {fileID: 2100000, guid: 19a65b8d66c600a40a74a78541a4edd9, type: 2}
+  segments: 7
+  radius: 1
+  height: 2
+  LHand: {fileID: 1530079485}
 --- !u!1 &1675439707
 GameObject:
   m_ObjectHideFlags: 0
@@ -6627,8 +6684,8 @@ Rigidbody:
   m_GameObject: {fileID: 1814587407}
   serializedVersion: 2
   m_Mass: 70
-  m_Drag: 20
-  m_AngularDrag: 0.05
+  m_Drag: 1
+  m_AngularDrag: 1
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -6645,8 +6702,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ee71a7eb7dcbd4dba4fed5d9125a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cone: {fileID: 1671541001}
   bodyTransform: {fileID: 1814587408}
   Body: {fileID: 1814587410}
+  LHand: {fileID: 1530079485}
+  RHand: {fileID: 1057257280}
 --- !u!1 &1818095322
 GameObject:
   m_ObjectHideFlags: 0
