@@ -117,7 +117,7 @@ public class SphereController : MonoBehaviour {
         Renderer rend = _activeCollider.GetComponent<Renderer>();
         if (rend != null)
         {
-            if (!_activeCollider.gameObject.name.Contains("Button"))
+            if (!_activeCollider.gameObject.name.Contains("Button") && !_activeCollider.gameObject.name.Contains("cone") && !_activeCollider.gameObject.name.Contains("Screen"))
             {
                 rend.material = PressedMaterialKey;
                 if (_inputLock <= 0 || _lastInput != rend.name)
@@ -219,7 +219,7 @@ public class SphereController : MonoBehaviour {
             Image img = _activeCollider.gameObject.GetComponent<Image>();
             if (rend != null)
             {
-                if (!_activeCollider.gameObject.name.Contains("Button"))
+                if (!_activeCollider.gameObject.name.Contains("Button") && !_activeCollider.gameObject.name.Contains("cone") && !_activeCollider.gameObject.name.Contains("Screen"))
                 {
                     rend.material = ColliderMaterialKey;
                 }                
@@ -245,7 +245,7 @@ public class SphereController : MonoBehaviour {
         Image img = _activeCollider.gameObject.GetComponent<Image>();
         if ( rend!= null)
         {
-            if (!_activeCollider.gameObject.name.Contains("Button"))
+            if (!_activeCollider.gameObject.name.Contains("Button") && !_activeCollider.gameObject.name.Contains("cone") && !_activeCollider.gameObject.name.Contains("Screen"))
             {
                 rend.material = NormalMaterialKey;
             }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FishController : MonoBehaviour {
@@ -14,6 +15,7 @@ public class FishController : MonoBehaviour {
         public bool ShouldStickToGround;
         public Material FishMaterial;
         public bool HasCaught;
+        public float PosFactor;
     }
 
     private List<AdvanceFish> _fishes;
@@ -35,20 +37,26 @@ public class FishController : MonoBehaviour {
         Whale.transform.localScale = new Vector3(2f, 2f, 2f);
         _fishes = new List<AdvanceFish>();
         _fishList = new List<AdvanceFish> {
-            new AdvanceFish{Fish = BadFish, Direction = Vector3.zero, MaxHeight = 35 },
-            new AdvanceFish{Fish = BadFish, Direction = Vector3.zero, MaxHeight = 35 },
-            new AdvanceFish{Fish = BadFish, Direction = Vector3.zero, MaxHeight = 35 },
-            new AdvanceFish{Fish = GoldFish, Direction = Vector3.zero, MaxHeight = 52 },
-            new AdvanceFish{Fish = GoldFish, Direction = Vector3.zero, MaxHeight = 52 },
-            new AdvanceFish{Fish = GoldFish, Direction = Vector3.zero, MaxHeight = 52 },
-            new AdvanceFish{Fish = Seaweed, Direction = Vector3.zero, MaxHeight = 52 },
-            new AdvanceFish{Fish = Seaweed, Direction = Vector3.zero, MaxHeight = 52 },
-            new AdvanceFish{Fish = Seaweed, Direction = Vector3.zero, MaxHeight = 52 },
-            new AdvanceFish{Fish = Bob, Direction = Vector3.zero, MaxHeight = 52 },
-            new AdvanceFish{Fish = Whale, Direction = Vector3.zero, MaxHeight = 30 },
-            new AdvanceFish{Fish = Whale, Direction = Vector3.zero, MaxHeight = 30 },
+            new AdvanceFish{Fish = BadFish, Direction = Vector3.zero, MaxHeight = 35, PosFactor = 1f },
+            new AdvanceFish{Fish = BadFish, Direction = Vector3.zero, MaxHeight = 35, PosFactor = 1f },
+            new AdvanceFish{Fish = BadFish, Direction = Vector3.zero, MaxHeight = 35, PosFactor = 1f },
+            new AdvanceFish{Fish = GoldFish, Direction = Vector3.zero, MaxHeight = 52, PosFactor = .7f },
+            new AdvanceFish{Fish = GoldFish, Direction = Vector3.zero, MaxHeight = 52, PosFactor = .7f },
+            new AdvanceFish{Fish = GoldFish, Direction = Vector3.zero, MaxHeight = 52, PosFactor = .7f },
+            new AdvanceFish{Fish = Seaweed, Direction = Vector3.zero, MaxHeight = 52, PosFactor = .7f },
+            new AdvanceFish{Fish = Seaweed, Direction = Vector3.zero, MaxHeight = 52, PosFactor = .7f },
+            new AdvanceFish{Fish = Seaweed, Direction = Vector3.zero, MaxHeight = 52, PosFactor = .7f },
+            new AdvanceFish{Fish = Bob, Direction = Vector3.zero, MaxHeight = 52, PosFactor = 0.5f },
+            new AdvanceFish{Fish = Whale, Direction = Vector3.zero, MaxHeight = 30, PosFactor = 1f },
+            new AdvanceFish{Fish = Whale, Direction = Vector3.zero, MaxHeight = 30, PosFactor = 1f },
         };
 	}
+
+    public List<AdvanceFish> GetCloseFishList()
+    {
+        var tempList = _fishes.OrderBy(o => (o.Fish.transform.position - UserPosition.position).magnitude).ToList();
+        return tempList.GetRange(0, 9);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -75,7 +83,7 @@ public class FishController : MonoBehaviour {
             var dx = x / 180f * Mathf.PI;
             var dy = y / 180f * Mathf.PI;            
             _fishes.Add(new AdvanceFish { Fish = newFish, Direction = Vector3.zero, MaxHeight = _fishList[index].MaxHeight ,
-            ShouldStay = _fishList[index].Fish == Seaweed, ShouldStickToGround = _fishList[index].Fish == Seaweed || _fishList[index].Fish == Bob});
+            ShouldStay = _fishList[index].Fish == Seaweed, ShouldStickToGround = _fishList[index].Fish == Seaweed || _fishList[index].Fish == Bob, PosFactor = _fishList[index].PosFactor});
             newFish.transform.position = new Vector3(UserPosition.position.x + (Util.IsSwiming ? 30 : 0) + 50f * Mathf.Sin(dx),
                 UserPosition.position.y + 20f * Mathf.Sin(dy),
                 UserPosition.position.z + (Util.IsSwiming ? 30 : 0) + 50f * Mathf.Cos(dx));
@@ -120,7 +128,7 @@ public class FishController : MonoBehaviour {
             fish.MoveLeft -= 1;
             _fishes[i] = fish;
         }
-        PC.TargetFish = _fishes[0];
+//        PC.TargetFish = _fishes[0];
 	}
 
     private AdvanceFish GetNewDirection(System.Random rand, AdvanceFish fish, int dir)
