@@ -464,8 +464,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 48571371}
-  m_LocalRotation: {x: -0.07721042, y: 0.34827623, z: 0.02879823, w: 0.9337628}
-  m_LocalPosition: {x: -42.192284, y: 31.857346, z: 39.713924}
+  m_LocalRotation: {x: -0.032832295, y: 0.8653795, z: 0.05719811, w: 0.49675816}
+  m_LocalPosition: {x: -90.50991, y: 58.807667, z: 54.963352}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -8380,7 +8380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BadFish: {fileID: 1793556642308412, guid: 4873a26a2ed8af341b0f897a02723fbe, type: 2}
-  GoldFish: {fileID: 100000, guid: 0b2cc9c372d45a74da294597c433143d, type: 3}
+  GoldFish: {fileID: 1450644635788730, guid: 4cf4fe79b9cdc054ab7f82d7caa96997, type: 2}
   Bob: {fileID: 1312766529094966, guid: 1262db4ba96198c4085fda5fea677ad4, type: 2}
   Seaweed: {fileID: 1589378079524998, guid: 2ffb0d8e8c074ce4b9a78e3a510d3ba8, type: 2}
   Whale: {fileID: 1592056824805830, guid: 22724a173f1ef194283c4f78684691ad, type: 2}

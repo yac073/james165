@@ -230,6 +230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4866451344029936}
   - component: {fileID: 137801255237973556}
+  - component: {fileID: 64057912383912482}
   m_Layer: 0
   m_Name: humpback_whale_exp1_0
   m_TagString: Untagged
@@ -795,6 +796,20 @@ Transform:
   m_Father: {fileID: 4583449607973078}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &64057912383912482
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1528628697358808}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 035a8130f4329504aaa80f75dc72628d, type: 3}
 --- !u!111 &111283965919499238
 Animation:
   m_ObjectHideFlags: 1
