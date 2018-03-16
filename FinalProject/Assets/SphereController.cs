@@ -29,6 +29,9 @@ public class SphereController : MonoBehaviour {
     public Material DeactiveMaterial;
     public Text Input;
 
+    public Material TransparentMaterial;
+    public Material NormalSphereMaterial;
+
     private float _inputLock;
     private Collider _activeCollider;
     private string _lastInput;
@@ -43,8 +46,18 @@ public class SphereController : MonoBehaviour {
 
     public MenuController MC;
 
-	// Use this for initialization
-	void Start () {
+    public GameObject FishNetBundle;
+
+    public GameObject FSSmall;
+    public GameObject FSMedium;
+    public GameObject fSBig;
+    public GameObject FSW;
+
+    private GameObject _currentfs;
+
+    // Use this for initialization
+    void Start () {
+        Util.OnSwimmingStatusChanged += Util_OnSwimmingStatusChanged;
         _pressTime = 0;
         _inputLock = 0f;
         _activeCollider = null;
@@ -60,13 +73,75 @@ public class SphereController : MonoBehaviour {
             }
         }
 	}
-	
-	// Update is called once per frame
-	void Update ()
+
+    private void Util_OnSwimmingStatusChanged(object sender, Util.BoolEventArgs e)
+    {
+        ThisObj.GetComponent<Renderer>().material = e.Result ? TransparentMaterial : NormalSphereMaterial;
+        if (!e.Result)
+        {
+            if (_currentfs != null)
+            {
+                _currentfs.SetActive(false);
+            }
+        }
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
         if (_inputLock > 0)
         {
             _inputLock -= Time.deltaTime;
+        }
+        if (Util.IsSwiming)
+        {
+            if (_isRight)
+            {
+                bool depolyFishnet = OVRInput.Get(OVRInput.RawButton.RIndexTrigger);
+                var lv = Util.WeaponLevel;
+                switch (lv)
+                {
+                    case 1:
+                        _currentfs = FSSmall;
+                        break;
+                    case 2:
+                        _currentfs = FSMedium;
+                        break;
+                    case 3:
+                        _currentfs = fSBig;
+                        break;
+                    case 4:
+                        _currentfs = FSW;
+                        break;
+                    default:
+                        _currentfs = null;
+                        break;
+                }
+                if (_currentfs != null && depolyFishnet)
+                {
+                    _currentfs.SetActive(true);
+                }
+                else if (_currentfs != null)
+                {
+                    _currentfs.SetActive(false);
+                }
+                if (depolyFishnet)
+                {
+                    if (lv == 0)
+                    {
+                        var fishes = Physics.OverlapSphere(ThisObj.transform.position, 0.5f * ThisObj.transform.localScale.x);
+                        var realFishes = RemoveBadColliders(fishes);
+                    } else if (lv < 4)
+                    {
+                        var fishnetCollider = _currentfs.GetComponentInChildren<SphereCollider>();                       
+                        var colliderCenter = fishnetCollider.transform.position + fishnetCollider.center;
+                        var radius = fishnetCollider.radius;
+                        var fishes = Physics.OverlapSphere(colliderCenter, radius);
+                        var realFishes = RemoveBadColliders(fishes);
+                    }
+                }
+            }
+            return;
         }
         var cc = Physics.OverlapSphere(ThisObj.transform.position, 0.5f * ThisObj.transform.localScale.x);
         List<Collider> colliders = RemoveBadColliders(cc);
@@ -167,7 +242,8 @@ public class SphereController : MonoBehaviour {
             "LSphere",
             "RSphere",
             "OVRPlayerController",
-            "Cube"
+            "Cube",
+            "NetSphere"            
         };
         return !blackList.Contains(s);
     }

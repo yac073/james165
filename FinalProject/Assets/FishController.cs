@@ -84,9 +84,22 @@ public class FishController : MonoBehaviour {
             var dy = y / 180f * Mathf.PI;            
             _fishes.Add(new AdvanceFish { Fish = newFish, Direction = Vector3.zero, MaxHeight = _fishList[index].MaxHeight ,
             ShouldStay = _fishList[index].Fish == Seaweed, ShouldStickToGround = _fishList[index].Fish == Seaweed || _fishList[index].Fish == Bob, PosFactor = _fishList[index].PosFactor});
-            newFish.transform.position = new Vector3(UserPosition.position.x + (Util.IsSwiming ? 30 : 0) + 50f * Mathf.Sin(dx),
+            var position = new Vector3(UserPosition.position.x + (Util.IsSwiming ? 30 : 0) + 50f * Mathf.Sin(dx),
                 UserPosition.position.y + 20f * Mathf.Sin(dy),
                 UserPosition.position.z + (Util.IsSwiming ? 30 : 0) + 50f * Mathf.Cos(dx));
+            position.y = Terrain.activeTerrain.SampleHeight(position);
+            while (position.y > 52)
+            {
+                x = rand.Next() % 360;
+                y = rand.Next() % 360;
+                dx = x / 180f * Mathf.PI;
+                dy = y / 180f * Mathf.PI;
+                position = new Vector3(UserPosition.position.x + (Util.IsSwiming ? 30 : 0) + 50f * Mathf.Sin(dx),
+                UserPosition.position.y + 20f * Mathf.Sin(dy),
+                UserPosition.position.z + (Util.IsSwiming ? 30 : 0) + 50f * Mathf.Cos(dx));
+                position.y = Terrain.activeTerrain.SampleHeight(position);
+            }
+            newFish.transform.position = position;
         }
         for (int i = 0; i < _fishes.Count; i++)
         {

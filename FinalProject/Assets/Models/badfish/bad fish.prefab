@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23383856299368992}
   - component: {fileID: 64711590619156748}
   m_Layer: 0
-  m_Name: default
+  m_Name: BadFish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

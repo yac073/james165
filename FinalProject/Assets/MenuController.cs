@@ -225,7 +225,6 @@ public class MenuController : MonoBehaviour {
                 break;
             case "DiveButton":
                 Util.IsSwiming = true;
-                Util.CurrentTerrainMode = Util.TerrainMode.Sea;
                 break;
             case "BreatherButtonPurchaser":
                 price = 10 * Math.Pow(2, Util.BreatherLevel * 3);

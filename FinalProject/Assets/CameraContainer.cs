@@ -12,7 +12,7 @@ public class CameraContainer : MonoBehaviour {
     public Transform LeftHandTransform;
     public Transform RightHandTransform;
     public Transform HeadTransform;
-    public Transform DefaultPosition;
+    public Transform DefaultPosition;    
 
     private GameObject _defaultTransformObj;
     private float a, v;
@@ -146,7 +146,7 @@ public class CameraContainer : MonoBehaviour {
             {
                 ypos = Terrain.activeTerrain.SampleHeight(pos) -48;
             }
-            if (ypos > 55) { ypos = 55; }
+            if (ypos > 55 + 0.76) { ypos = 55 + 0.76f; }
             pos.y = ypos;
             this.transform.position = pos;
         }

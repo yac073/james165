@@ -81,8 +81,11 @@ public class RightPanelController : MonoBehaviour {
         }
         Panel.SetActive(true);
 
-        if (Vector3.Dot(EyeTransform.forward, Panel.transform.forward) < 0.6f) {         
+        if (Vector3.Dot(EyeTransform.forward, Panel.transform.forward) < 0.6f || 
+            (Vector3.Dot((Panel.transform.position - EyeTransform.position), EyeTransform.forward) * (Panel.transform.position - EyeTransform.position).normalized).magnitude < 0.25
+            || Vector3.Dot(EyeTransform.up, Panel.transform.up) < 0.8f) {         
             Panel.SetActive(false);
+            PC.TargetFish = null;
             return;
         }
         RefreshFishList();
@@ -110,6 +113,13 @@ public class RightPanelController : MonoBehaviour {
             }
         }
         var rightControl = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
+        var rightPress = OVRInput.Get(OVRInput.RawButton.RThumbstick);
+        if (rightPress)
+        {
+            _isSelecting = false;
+            _selection = null;
+            PC.TargetFish = null;
+        } else
         if (rightControl.x > 0.8f)
         {
             if (_selection == null)
