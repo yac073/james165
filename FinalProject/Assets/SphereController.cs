@@ -55,12 +55,10 @@ public class SphereController : MonoBehaviour {
 
     private GameObject _currentfs;
 
+    public InventoryController IC;
+
     // Use this for initialization
     void Start () {
-        Util.OnSwimmingStatusChanged += Util_OnSwimmingStatusChanged;
-        _pressTime = 0;
-        _inputLock = 0f;
-        _activeCollider = null;
         if (ThisObj != null)
         {
             if (ThisObj.name == "LSphere")
@@ -72,6 +70,10 @@ public class SphereController : MonoBehaviour {
                 _isLeft = false;
             }
         }
+        Util.OnSwimmingStatusChanged += Util_OnSwimmingStatusChanged;
+        _pressTime = 0;
+        _inputLock = 0f;
+        _activeCollider = null;
 	}
 
     private void Util_OnSwimmingStatusChanged(object sender, Util.BoolEventArgs e)
@@ -131,13 +133,30 @@ public class SphereController : MonoBehaviour {
                     {
                         var fishes = Physics.OverlapSphere(ThisObj.transform.position, 0.5f * ThisObj.transform.localScale.x);
                         var realFishes = RemoveBadColliders(fishes);
-                    } else if (lv < 4)
+                        if (realFishes.Count > 0)
+                        {
+                            int bite = IC.AddFish(realFishes);
+                            if ( bite > 0)
+                            {
+                                Util.BleedingTimeLeft = 10.0f * bite;
+                            }
+                        }
+                    }
+                    else if (lv < 4)
                     {
                         var fishnetCollider = _currentfs.GetComponentInChildren<SphereCollider>();                       
                         var colliderCenter = fishnetCollider.transform.position + fishnetCollider.center;
                         var radius = fishnetCollider.radius;
                         var fishes = Physics.OverlapSphere(colliderCenter, radius);
                         var realFishes = RemoveBadColliders(fishes);
+                        if (realFishes.Count > 0)
+                        {
+                            int bite = IC.AddFish(realFishes);
+                            if (bite > 0)
+                            {
+                                Util.BleedingTimeLeft = 10.0f * bite;
+                            }
+                        }
                     }
                 }
             }
@@ -148,7 +167,7 @@ public class SphereController : MonoBehaviour {
 
         bool isPressed =
             OVRInput.Get(_isLeft ? OVRInput.RawButton.LIndexTrigger : OVRInput.RawButton.RIndexTrigger) &&
-            OVRInput.Get(_isLeft ? OVRInput.RawButton.LHandTrigger : OVRInput.RawButton.RHandTrigger);
+            !OVRInput.Get(_isLeft ? OVRInput.RawButton.LHandTrigger : OVRInput.RawButton.RHandTrigger);
         if (isPressed)
         {
             _pressTime++;
@@ -243,7 +262,8 @@ public class SphereController : MonoBehaviour {
             "RSphere",
             "OVRPlayerController",
             "Cube",
-            "NetSphere"            
+            "NetSphere",
+            "SeaTerrain"
         };
         return !blackList.Contains(s);
     }

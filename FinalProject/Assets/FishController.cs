@@ -29,7 +29,7 @@ public class FishController : MonoBehaviour {
 
     public Transform UserPosition;
     public PositionController PC;
-
+    public RightPanelController RPC;
     // Use this for initialization
     void Start () {
         GoldFish.transform.localScale = new Vector3(0.02f, 0.02f, 0.02f);
@@ -160,5 +160,23 @@ public class FishController : MonoBehaviour {
         fish.Speed = rand.Next() % 100;
         fish.MoveLeft = (rand.Next() % 10000);
         return fish;
+    }
+
+    public void DestroyFishes(List<GameObject> c)
+    {
+        foreach(var cc in c)
+        {
+            var af = _fishes.Find(o => o.Fish == cc);  
+            if (PC.TargetFish == af)
+            {
+                PC.TargetFish = null;
+                RPC.SetSelectingStatusNull();
+            }
+            if (af != null)
+            {
+                _fishes.Remove(af);
+            }
+            Destroy(af.Fish);
+        }
     }
 }

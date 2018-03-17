@@ -68,6 +68,11 @@ public class RightPanelController : MonoBehaviour {
         Screen.SetActive(e.Result);
     }
 
+    public void SetSelectingStatusNull()
+    {
+        _selection = null;
+        _isSelecting = false;
+    }
     // Update is called once per frame
     void Update ()
     {
@@ -80,7 +85,6 @@ public class RightPanelController : MonoBehaviour {
             return;
         }
         Panel.SetActive(true);
-
         if (Vector3.Dot(EyeTransform.forward, Panel.transform.forward) < 0.6f || 
             (Vector3.Dot((Panel.transform.position - EyeTransform.position), EyeTransform.forward) * (Panel.transform.position - EyeTransform.position).normalized).magnitude < 0.25
             || Vector3.Dot(EyeTransform.up, Panel.transform.up) < 0.8f) {         
@@ -122,10 +126,11 @@ public class RightPanelController : MonoBehaviour {
         } else
         if (rightControl.x > 0.8f)
         {
-            if (_selection == null)
+            if ((_selection == null) || (_isSelecting == false))
             {
                 x = y = 0;
                 _frames[x * 3 + y].GetComponent<RawImage>().material = SelectedMaterial;
+                _selection = _fishes[x * 3 + y];
                 PC.TargetFish = _selection;
                 _timeLock = 1.0f;
                 _isSelecting = true;
@@ -145,10 +150,11 @@ public class RightPanelController : MonoBehaviour {
             }
         } else if (rightControl.x < -0.8f)
         {
-            if (_selection == null)
+            if ((_selection == null) || (_isSelecting == false))
             {
                 x = y = 2;
                 _frames[x * 3 + y].GetComponent<RawImage>().material = SelectedMaterial;
+                _selection = _fishes[x * 3 + y];
                 PC.TargetFish = _selection;
                 _timeLock = 1.0f;
                 _isSelecting = true;
@@ -169,10 +175,11 @@ public class RightPanelController : MonoBehaviour {
             }
         } else if (rightControl.y > 0.8f)
         {
-            if (_selection == null)
+            if ((_selection == null) || (_isSelecting == false))
             {
                 x = y = 2;
                 _frames[x * 3 + y].GetComponent<RawImage>().material = SelectedMaterial;
+                _selection = _fishes[x * 3 + y];
                 PC.TargetFish = _selection;
                 _timeLock = 1.0f;
                 _isSelecting = true;
@@ -194,10 +201,11 @@ public class RightPanelController : MonoBehaviour {
         }
         else if (rightControl.y < -0.8f)
         {
-            if (_selection == null)
+            if ((_selection == null) || (_isSelecting == false))
             {
                 x = y = 0;
                 _frames[x * 3 + y].GetComponent<RawImage>().material = SelectedMaterial;
+                _selection = _fishes[x * 3 + y];
                 PC.TargetFish = _selection;
                 _timeLock = 1.0f;
                 _isSelecting = true;
@@ -220,7 +228,7 @@ public class RightPanelController : MonoBehaviour {
         {
             _lastDirection = Direction.None;
         }
-        if (_selection != null)
+        if (_selection != null && _isSelecting != false)
         {
             TargetPointer.SetActive(true);
             TargetPointer.transform.LookAt(_selection.Fish.transform);

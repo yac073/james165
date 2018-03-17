@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PositionController : MonoBehaviour
 {
@@ -10,7 +11,6 @@ public class PositionController : MonoBehaviour
     public GameObject Radar;
     private float lowRange = 130;
     private float highRange = 170;
-
     private float _swimingTime;
     public GameObject TempObject;
     private Transform _tempTransform;
@@ -54,7 +54,7 @@ public class PositionController : MonoBehaviour
         //else {
         //    cone.SetActive(false);
         //}
-        
+
         //Disabled
         //if (OVRInput.Get(OVRInput.RawButton.RIndexTrigger))
         //{

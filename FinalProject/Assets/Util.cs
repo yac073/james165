@@ -186,9 +186,11 @@ public static class Util
     public static int Balance { get; set; }
 
     //constant
-    public static float MaxPower = 1000.0f;
+    public static float MaxPower = 120.0f;
     public static float MaxAir = 60.0f;
     public static float DefaultAirLosingSpeedPreSecond = 1.0f;
+    public static float BleedingAirLosingSpeedMultiplier = 2.0f;
+    public static float DefaultBleeingMaxTime = 10.0f;
     public static float DefaultPowerLosingSpeedPreSecond = 1.0f;
 
     public class BoolEventArgs : EventArgs

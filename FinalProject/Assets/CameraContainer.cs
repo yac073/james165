@@ -57,11 +57,13 @@ public class CameraContainer : MonoBehaviour {
         {
             LeftHandSphere.transform.localScale = new Vector3(.1f, .1f, .1f);
             RightHandShpere.transform.localScale = new Vector3(.1f, .1f, .1f);
+            LeftHandSphere.SetActive(true);
         }
         else
         {
             LeftHandSphere.transform.localScale = new Vector3(.9f, .9f, .9f);
             RightHandShpere.transform.localScale = new Vector3(.9f, .9f, .9f);
+            LeftHandSphere.SetActive(false);
         }
     }
 

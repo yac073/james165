@@ -12,6 +12,7 @@ public class EnvironmentController : MonoBehaviour {
     private void Util_OnSwimmingStatusChanged(object sender, Util.BoolEventArgs e)
     {
         Util.CurrentTerrainMode = e.Result ? Util.TerrainMode.Sea : Util.TerrainMode.Normal;
+
     }
 
     // Update is called once per frame
