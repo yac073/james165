@@ -10,6 +10,9 @@ public class LeftPanelController : MonoBehaviour {
     // ErrorMsg change to NORAML above water when energyLeft is greater than 10
     // above water StatusBar incre
     // below water StatusBar decre
+    public AudioSource BGM;
+    public AudioSource DiedAudio;
+    public GameObject GameOverScreen;
     public GameObject WelcomeMessage;
     public GameObject O2Left;
     public GameObject HrsLeft;
@@ -22,6 +25,10 @@ public class LeftPanelController : MonoBehaviour {
     private float dangerThreshold = 10.0f;
     public GameObject Panel;
     public Transform EyeTransform;
+    public AudioSource Danger;
+    private bool firstTimeDanger;
+    private bool firstTimeGameOver;
+    private float timer = 0.0f;
 
     // Use this for initialization
     void Start()
@@ -32,6 +39,8 @@ public class LeftPanelController : MonoBehaviour {
         TextMesh welcomeMsgMsg = (TextMesh)WelcomeMessage.GetComponent(typeof(TextMesh));
         welcomeMsgMsg.text = string.IsNullOrEmpty(Util.UserName) ? "DEAR USER, WELCOME!\nOXYGEN IN LUNG" : "DEAR " + Util.UserName + ", WELCOME!\nOXYGEN IN LUNG";
         Util.OnSwimmingStatusChanged += Util_OnSwimmingStatusChanged;
+        firstTimeDanger = true;
+        firstTimeGameOver = true;
     }
 
     private void Util_OnSwimmingStatusChanged(object sender, Util.BoolEventArgs e)
@@ -117,6 +126,16 @@ public class LeftPanelController : MonoBehaviour {
         TextMesh ErrorMsgMsg = (TextMesh)ErrorMsg.GetComponent(typeof(TextMesh));
         ErrorMsgMsg.text = (o2inlung < dangerThreshold) ? "DANGER" : "NORMAL";
         ErrorMsgMsg.color = (o2inlung < dangerThreshold) ? Color.red : Color.black;
+        if (o2inlung < dangerThreshold && firstTimeDanger)
+        {
+            Danger.Play();
+            firstTimeDanger = false;
+        }
+        else if (o2inlung >= dangerThreshold && !firstTimeDanger)
+        {
+            Danger.Pause();
+            firstTimeDanger = true;
+        }
 
         if (Vector3.Dot(EyeTransform.forward, Panel.transform.forward) < 0.6f ||
             (Vector3.Dot((Panel.transform.position - EyeTransform.position), EyeTransform.forward) * (Panel.transform.position - EyeTransform.position).normalized).magnitude < 0.25
@@ -127,5 +146,28 @@ public class LeftPanelController : MonoBehaviour {
         else {
             Panel.SetActive(true);
         }
+
+        if (o2inlung == 0)
+        {
+            timer += Time.deltaTime;
+        }
+
+        if (o2inlung == 0 && timer > 6)
+        {
+            Util.IsSwiming = false;
+            timer = 0.0f;
+            BGM.Play();
+            DiedAudio.Stop();
+            firstTimeGameOver = true;
+        }
+        else if(o2inlung == 0 && firstTimeGameOver)
+        {
+            Danger.Pause();
+            BGM.Stop();
+            DiedAudio.Play();
+            firstTimeGameOver = false;
+        }
+
+        GameOverScreen.SetActive(o2inlung == 0);
     }
 }

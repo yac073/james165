@@ -5,6 +5,16 @@ using UnityEngine.UI;
 
 public class PositionController : MonoBehaviour
 {
+    private AudioSource aboveOrUnderWaterAudio;
+    public AudioSource BGM;
+    public AudioClip Horror;
+    public AudioClip Relax;
+    private bool firstAboveWater = false;
+    private bool firstUnderWater = false;
+    private bool firstAboveHorror = false;
+    private bool firstUnderHorror = false;
+    public AudioClip aboveWater;
+    public AudioClip underWater;
     public Transform bodyTransform;
     public Transform LHand;
     public Transform RHand;
@@ -21,51 +31,52 @@ public class PositionController : MonoBehaviour
         _tempTransform = TempObject.transform;
         Radar.SetActive(false);
         _swimingTime = 0;
+        aboveOrUnderWaterAudio = Camera.main.transform.GetComponent<AudioSource>();
+        aboveOrUnderWaterAudio.clip = aboveWater;
+        aboveOrUnderWaterAudio.Play();
+        BGM.Play();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //bool openNet = (LHand.eulerAngles.y > lowRange) && (LHand.eulerAngles.y < highRange);
+        if (bodyTransform.position.y < 47.5f)
+        {
+            if (firstAboveHorror == false)
+            {
+                BGM.clip = Horror;
+                BGM.Play();
+                firstAboveHorror = true;
+                firstUnderHorror = false;
+            }
+        }
+        else {
+            if (firstUnderHorror == false)
+            {
+                BGM.clip = Relax;
+                BGM.Play();
+                firstAboveHorror = false;
+                firstUnderHorror = true;
+            }
+        }
         if (!Util.IsSwiming)
         {
+            if (firstAboveWater == false)
+            {
+                aboveOrUnderWaterAudio.clip = aboveWater;
+                aboveOrUnderWaterAudio.Play();
+                firstAboveWater = true;
+                firstUnderWater = false;
+            }
             return;
         }
-        //if (OVRInput.Get(OVRInput.RawButton.RHandTrigger))
-        //{
-        //    bodyTransform.position = new Vector3(
-        //        bodyTransform.position.x + RHand.transform.forward.x * 0.3f,
-        //        bodyTransform.position.y + RHand.transform.forward.y * 0.3f,
-        //        bodyTransform.position.z + RHand.transform.forward.z * 0.3f
-        //        );
-        //}
-        //if (OVRInput.Get(OVRInput.RawButton.RIndexTrigger))
-        //{
-        //    bodyTransform.RotateAround(bodyTransform.position, Vector3.up, 0.3f);
-        //}
-        //if (OVRInput.Get(OVRInput.RawButton.LIndexTrigger))
-        //{
-        //    bodyTransform.RotateAround(bodyTransform.position, Vector3.up, -0.3f);
-        //}
-        //if (OVRInput.Get(OVRInput.RawButton.LHandTrigger) && openNet)
-        //{
-        //    cone.SetActive(true);
-        //}
-        //else {
-        //    cone.SetActive(false);
-        //}
-
-        //Disabled
-        //if (OVRInput.Get(OVRInput.RawButton.RIndexTrigger))
-        //{
-        //    Radar.SetActive(true);
-        //}
-        //else
-        //{
-        //    Radar.SetActive(false);
-        //}
-
-        //
+        if (firstUnderWater == false)
+        {
+            firstAboveWater = false;
+            firstUnderWater = true;
+            aboveOrUnderWaterAudio.clip = underWater;
+            aboveOrUnderWaterAudio.Play();
+        }
         if (TargetFish != null)
         {
             if (OVRInput.Get(OVRInput.RawButton.RHandTrigger))

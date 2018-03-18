@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: d6b8e1d82d7118548907ffe66ec2466a
+timeCreated: 1521365303
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Armalite Rifle
+  fontNames:
+  - Armalite Rifle
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
