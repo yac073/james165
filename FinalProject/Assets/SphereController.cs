@@ -56,7 +56,7 @@ public class SphereController : MonoBehaviour {
     private GameObject _currentfs;
 
     public InventoryController IC;
-
+    public AudioSource BiteAudio;
     // Use this for initialization
     void Start () {
         if (ThisObj != null)
@@ -70,11 +70,26 @@ public class SphereController : MonoBehaviour {
                 _isLeft = false;
             }
         }
+        if (_isRight)
+        {
+            Util.OnEnvironmentVolumnChanged += Util_OnEnvironmentVolumnChanged;
+            Util.OnMainVolumnChanged += Util_OnMainVolumnChanged;
+        }
         Util.OnSwimmingStatusChanged += Util_OnSwimmingStatusChanged;
         _pressTime = 0;
         _inputLock = 0f;
         _activeCollider = null;
 	}
+
+    private void Util_OnMainVolumnChanged(object sender, Util.FloatEventArgs e)
+    {
+        BiteAudio.volume = Util.MainVolumn * Util.EnvironmentVolumn;
+    }
+
+    private void Util_OnEnvironmentVolumnChanged(object sender, Util.FloatEventArgs e)
+    {
+        BiteAudio.volume = Util.MainVolumn * Util.EnvironmentVolumn;
+    }
 
     private void Util_OnSwimmingStatusChanged(object sender, Util.BoolEventArgs e)
     {
@@ -139,6 +154,10 @@ public class SphereController : MonoBehaviour {
                             if ( bite > 0)
                             {
                                 Util.BleedingTimeLeft = 10.0f * bite;
+                                if (!BiteAudio.isPlaying)
+                                {
+                                    BiteAudio.Play();
+                                }
                             }
                         }
                     }
@@ -146,7 +165,7 @@ public class SphereController : MonoBehaviour {
                     {
                         var fishnetCollider = _currentfs.GetComponentInChildren<SphereCollider>();                       
                         var colliderCenter = fishnetCollider.transform.position + fishnetCollider.center;
-                        var radius = fishnetCollider.radius;
+                        var radius = fishnetCollider.radius * fishnetCollider.transform.localScale.x;
                         var fishes = Physics.OverlapSphere(colliderCenter, radius);
                         var realFishes = RemoveBadColliders(fishes);
                         if (realFishes.Count > 0)
@@ -155,7 +174,23 @@ public class SphereController : MonoBehaviour {
                             if (bite > 0)
                             {
                                 Util.BleedingTimeLeft = 10.0f * bite;
+                                if (!BiteAudio.isPlaying)
+                                {
+                                    BiteAudio.Play();
+                                }
                             }
+                        }
+                    }
+                    else
+                    {
+                        var fishnetCollider = _currentfs.GetComponentInChildren<SphereCollider>();
+                        var colliderCenter = fishnetCollider.transform.position + fishnetCollider.center;
+                        var radius = fishnetCollider.radius * fishnetCollider.transform.localScale.x;
+                        var fishes = Physics.OverlapSphere(colliderCenter, radius);
+                        var realFishes = RemoveBadColliders(fishes);
+                        if (realFishes.Count > 0)
+                        {
+                            IC.AddFish(realFishes);
                         }
                     }
                 }

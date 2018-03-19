@@ -46,9 +46,29 @@ public class MenuController : MonoBehaviour {
     public Button PersonalBackButton { get; private set; }
 
 
+    private List<Button> _inventoryCanvasButton;
+    public Button InventoryBackButton { get; private set; }
+    public Button InventorySellAllButton { get; private set; }
+
+
     public Material ActiveMaterial;
     public Material DeactiveMaterial;
-    
+
+    public InventoryController IC;
+
+    private List<GameObject> _inventoryObjects;
+    public GameObject GoldFishInInventory;
+    public GameObject BadFishInInventory;
+    public GameObject BobInInventory;
+    public GameObject WhaleInInventory;
+    public GameObject SeaweedInInventory;
+    public Material LV1Material;
+    public Material LV2Material;
+    public Material LV3Material;
+    public Material LV4Material;
+    public Material LV5Material;
+
+    private int _value;
     enum CanvasType
     {
         Main = 0,
@@ -81,6 +101,7 @@ public class MenuController : MonoBehaviour {
                     break;
                 case "InventoryCanvasGameObject":
                     CurrentCanvasType = CanvasType.Inventory;
+                    RefreshInventoryCanvas();
                     break;
                 case "SettingCanvasGameObject":
                     CurrentCanvasType = CanvasType.Setting;
@@ -90,6 +111,82 @@ public class MenuController : MonoBehaviour {
                     break;
             }
         }
+    }
+
+    private void RefreshInventoryCanvas()
+    {
+        _inventoryObjects = new List<GameObject>();
+        var inventoryFishes = IC.GetFish();
+        int x = 0, y = 0;
+        _value = 0;
+        foreach(var fish in inventoryFishes)
+        {
+            switch (fish.name)
+            {
+                case "bad fish":
+                    var bfimg = Instantiate<GameObject>(BadFishInInventory, InventoryCanvas.transform);
+                    ModifyFishInInventoryCanvas(ref x, ref y, fish, bfimg);
+                    _value += 5 * fish.lv;
+                    break;
+                case "Whale":
+                    var wimg = Instantiate<GameObject>(WhaleInInventory, InventoryCanvas.transform);
+                    ModifyFishInInventoryCanvas(ref x, ref y, fish, wimg);
+                    _value += 100 * fish.lv;
+                    break;
+                case "Goldfish_01":
+                    var gfimg = Instantiate<GameObject>(GoldFishInInventory, InventoryCanvas.transform);
+                    ModifyFishInInventoryCanvas(ref x, ref y, fish, gfimg);
+                    _value += 1 * fish.lv;
+                    break;
+                case "Seaweed":
+                    var swimg = Instantiate<GameObject>(SeaweedInInventory, InventoryCanvas.transform);
+                    ModifyFishInInventoryCanvas(ref x, ref y, fish, swimg);
+                    _value += (int) Math.Ceiling(0.5 * fish.lv);
+                    break;
+                case "Bob":
+                    var bimg = Instantiate<GameObject>(BobInInventory, InventoryCanvas.transform);
+                    ModifyFishInInventoryCanvas(ref x, ref y, fish, bimg);
+                    _value += 50 * fish.lv;
+                    break;
+            }
+        }
+        InventorySellAllButton.GetComponentInChildren<Text>().text = "Sell All $" + _value;
+    }
+
+    private void ModifyFishInInventoryCanvas(ref int x, ref int y, InventoryController.SimpleFish fish, GameObject fishImage)
+    {
+        fishImage.transform.localRotation = Quaternion.identity;
+        fishImage.transform.localPosition = new Vector3(x * .975f - 4f, y * -.9f + 1.1f, 0);
+        fishImage.transform.localScale = new Vector3(.6f, .6f, .6f);
+        x++;
+        if (x > 8) { x = 0; y++; }
+        fishImage.GetComponentInChildren<Text>().text = "x" + ProcessNum(fish.num);
+        switch (fish.lv)
+        {            
+            case 1:
+                fishImage.GetComponent<RawImage>().material = LV1Material;
+                break;
+            case 2:
+                fishImage.GetComponent<RawImage>().material = LV2Material;
+                break;
+            case 3:
+                fishImage.GetComponent<RawImage>().material = LV3Material;
+                break;
+            case 4:
+                fishImage.GetComponent<RawImage>().material = LV4Material;
+                break;
+            case 5:
+                fishImage.GetComponent<RawImage>().material = LV5Material;
+                break;                
+        }
+        _inventoryObjects.Add(fishImage);
+    }
+
+    private string ProcessNum(int num)
+    {
+        if (num < 10) { return num + "  "; }
+        if (num < 100) { return num + " "; }
+        return "99+";
     }
 
     private void RefreshShoppingCanvas()
@@ -221,6 +318,7 @@ public class MenuController : MonoBehaviour {
             case "SettingBackButton":
             case "ShoppingBackButton":
             case "PersonalBackButton":
+            case "InventoryBackButton":
                 CurrentCanvas = MainCanvas;
                 break;
             case "DiveButton":
@@ -254,6 +352,20 @@ public class MenuController : MonoBehaviour {
                 Util.Balance -= (int)price;
                 RefreshShoppingCanvas();
                 break;
+            case "InventoryButton":
+                CurrentCanvas = InventoryCanvas;
+                break;
+            case "InventorySellAllButton":
+                Util.Balance += _value;
+                _value = 0;
+                IC.DestroyAllFish();
+                for (int i = 0; i < _inventoryObjects.Count; i++)
+                {
+                    Destroy(_inventoryObjects[i]);
+                }
+                _inventoryObjects.Clear();
+                RefreshInventoryCanvas();
+                break;
         }
     }
 
@@ -279,6 +391,9 @@ public class MenuController : MonoBehaviour {
         AssignButtons(_shoppingCanvasButtons);
         _personalCanvasButton = new List<Button>(PersonalCanvas.GetComponentsInChildren<Button>());
         AssignButtons(_personalCanvasButton);
+        _inventoryCanvasButton = new List<Button>(InventoryCanvas.GetComponentsInChildren<Button>());
+        AssignButtons(_inventoryCanvasButton);
+
 
         MainCanvas.SetActive(true);
         ShoppingCanvas.SetActive(false);
@@ -291,7 +406,9 @@ public class MenuController : MonoBehaviour {
     private void DebugPreFix()
     {
         Util.UserName = "aaa";
-        Util.Balance = 1000;        
+        Util.Balance = 1000;
+        Util.BreatherLevel = 4;
+        Util.WeaponLevel = 4;
     }
 
     private void Util_OnUsingKeyboardStatusChanged(object sender, Util.BoolEventArgs e)

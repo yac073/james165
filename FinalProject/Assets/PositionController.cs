@@ -28,6 +28,8 @@ public class PositionController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Util.OnEnvironmentVolumnChanged += Util_OnEnvironmentVolumnChanged;
+        Util.OnMainVolumnChanged += Util_OnMainVolumnChanged;
         _tempTransform = TempObject.transform;
         Radar.SetActive(false);
         _swimingTime = 0;
@@ -35,6 +37,16 @@ public class PositionController : MonoBehaviour
         aboveOrUnderWaterAudio.clip = aboveWater;
         aboveOrUnderWaterAudio.Play();
         BGM.Play();
+    }
+
+    private void Util_OnMainVolumnChanged(object sender, Util.FloatEventArgs e)
+    {
+        aboveOrUnderWaterAudio.volume = Util.EnvironmentVolumn * Util.MainVolumn;
+    }
+
+    private void Util_OnEnvironmentVolumnChanged(object sender, Util.FloatEventArgs e)
+    {
+        aboveOrUnderWaterAudio.volume = Util.EnvironmentVolumn * Util.MainVolumn;
     }
 
     // Update is called once per frame
@@ -144,7 +156,7 @@ public class PositionController : MonoBehaviour
             bodyTransform.rotation = Quaternion.Slerp(bodyTransform.rotation, Quaternion.Euler(0, bodyTransform.rotation.eulerAngles.y, 0), 0.02f);
 
         }
-        if (OVRInput.Get(OVRInput.RawButton.LThumbstick))
+        if (OVRInput.Get(OVRInput.RawButton.LThumbstick) && bodyTransform.position.y > 54.5f)
         {
             Util.IsSwiming = false;
         }

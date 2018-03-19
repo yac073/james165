@@ -12,7 +12,9 @@ public class LeftPanelController : MonoBehaviour {
     // below water StatusBar decre
     public AudioSource BGM;
     public AudioSource DiedAudio;
+    public AudioSource DiedAudio2;
     public GameObject GameOverScreen;
+    public GameObject GameOverScreen2;
     public GameObject WelcomeMessage;
     public GameObject O2Left;
     public GameObject HrsLeft;
@@ -29,10 +31,17 @@ public class LeftPanelController : MonoBehaviour {
     private bool firstTimeDanger;
     private bool firstTimeGameOver;
     private float timer = 0.0f;
+    private float timer2 = 0.0f;
+    public bool BiteByShark { get; set; }
+
+    public InventoryController IC;
 
     // Use this for initialization
     void Start()
     {
+        Util.OnMainVolumnChanged += Util_OnMainVolumnChanged;
+        Util.OnEnvironmentVolumnChanged += Util_OnEnvironmentVolumnChanged;
+        Util.OnBgmVolumnChanged += Util_OnBgmVolumnChanged;
         Util.AirLeft = Util.MaxAir;
         Util.BleedingTimeLeft = 0;
         Util.PowerLeft = Util.MaxPower * Util.BreatherLevel;
@@ -41,6 +50,26 @@ public class LeftPanelController : MonoBehaviour {
         Util.OnSwimmingStatusChanged += Util_OnSwimmingStatusChanged;
         firstTimeDanger = true;
         firstTimeGameOver = true;
+    }
+
+    private void Util_OnBgmVolumnChanged(object sender, Util.FloatEventArgs e)
+    {
+        BGM.volume = Util.BgmVolumn * Util.MainVolumn;
+    }
+
+    private void Util_OnEnvironmentVolumnChanged(object sender, Util.FloatEventArgs e)
+    {
+        DiedAudio.volume = Util.EnvironmentVolumn * Util.MainVolumn;
+        DiedAudio2.volume = Util.EnvironmentVolumn * Util.MainVolumn;
+        Danger.volume = Util.BgmVolumn * Util.MainVolumn;
+    }
+
+    private void Util_OnMainVolumnChanged(object sender, Util.FloatEventArgs e)
+    {
+        BGM.volume = Util.BgmVolumn * Util.MainVolumn;
+        DiedAudio.volume = Util.EnvironmentVolumn * Util.MainVolumn;
+        DiedAudio2.volume = Util.EnvironmentVolumn * Util.MainVolumn;
+        Danger.volume = Util.BgmVolumn * Util.MainVolumn;
     }
 
     private void Util_OnSwimmingStatusChanged(object sender, Util.BoolEventArgs e)
@@ -151,6 +180,10 @@ public class LeftPanelController : MonoBehaviour {
         {
             timer += Time.deltaTime;
         }
+        if (BiteByShark)
+        {
+            timer2 += Time.deltaTime;
+        }
 
         if (o2inlung == 0 && timer > 6)
         {
@@ -166,8 +199,28 @@ public class LeftPanelController : MonoBehaviour {
             BGM.Stop();
             DiedAudio.Play();
             firstTimeGameOver = false;
+            IC.DestroyAllFish();
+        }
+
+        if (BiteByShark && timer2 > 6)
+        {
+            Util.IsSwiming = false;
+            timer2 = 0.0f;
+            BGM.Play();
+            DiedAudio2.Stop();
+            firstTimeGameOver = true;
+            BiteByShark = false;
+        }
+        else if (BiteByShark && firstTimeGameOver)
+        {
+            Danger.Pause();
+            BGM.Stop();
+            DiedAudio2.Play();
+            firstTimeGameOver = false;
+            IC.DestroyAllFish();
         }
 
         GameOverScreen.SetActive(o2inlung == 0);
+        GameOverScreen2.SetActive(BiteByShark);
     }
 }

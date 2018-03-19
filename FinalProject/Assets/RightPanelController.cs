@@ -54,7 +54,7 @@ public class RightPanelController : MonoBehaviour {
             for (int i = 0; i < 3; i++)
             {
                 var obj = GameObject.Instantiate<RawImage>(Frame);
-                obj.transform.parent = Panel.transform;
+                obj.transform.SetParent(Panel.transform);
                 obj.rectTransform.localPosition = new Vector3(i * (obj.rectTransform.rect.width * .2f + 0.015f) - 0.13f, -j * (obj.rectTransform.rect.height * .2f + 0.015f) + 0.06f, 0f);
                 obj.rectTransform.localRotation = Quaternion.identity;
                 _frames.Add(obj);
