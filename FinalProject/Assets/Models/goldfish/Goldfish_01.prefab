@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 82327532300252674}
   m_Layer: 0
   m_Name: Goldfish_01
-  m_TagString: Untagged
+  m_TagString: goldfish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 64218440999906734}
   m_Layer: 0
   m_Name: Goldfish_01_Cube.058
-  m_TagString: Untagged
+  m_TagString: goldfish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

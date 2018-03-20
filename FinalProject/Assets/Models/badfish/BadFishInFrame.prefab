@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4075558140804806}
   m_Layer: 0
   m_Name: bad fish
-  m_TagString: Untagged
+  m_TagString: badfish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 4664151979086260}
   m_Layer: 0
   m_Name: BadFishInFrame
-  m_TagString: Untagged
+  m_TagString: badfish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

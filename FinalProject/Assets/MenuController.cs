@@ -408,7 +408,7 @@ public class MenuController : MonoBehaviour {
         Util.UserName = "aaa";
         Util.Balance = 1000;
         Util.BreatherLevel = 4;
-        Util.WeaponLevel = 4;
+        Util.WeaponLevel = 2;
     }
 
     private void Util_OnUsingKeyboardStatusChanged(object sender, Util.BoolEventArgs e)

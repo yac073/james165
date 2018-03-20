@@ -54,10 +54,10 @@ public class SphereController : MonoBehaviour {
     public GameObject FSW;
 
     private GameObject _currentfs;
+    private GameObject lineR;
 
     public InventoryController IC;
     public AudioSource BiteAudio;
-    // Use this for initialization
     void Start () {
         if (ThisObj != null)
         {
@@ -79,7 +79,10 @@ public class SphereController : MonoBehaviour {
         _pressTime = 0;
         _inputLock = 0f;
         _activeCollider = null;
-	}
+        lineR = new GameObject();
+        lineR.AddComponent<LineRenderer>();
+        lineR.SetActive(false);
+    }
 
     private void Util_OnMainVolumnChanged(object sender, Util.FloatEventArgs e)
     {
@@ -151,7 +154,7 @@ public class SphereController : MonoBehaviour {
                         if (realFishes.Count > 0)
                         {
                             int bite = IC.AddFish(realFishes);
-                            if ( bite > 0)
+                            if (bite > 0)
                             {
                                 Util.BleedingTimeLeft = 10.0f * bite;
                                 if (!BiteAudio.isPlaying)
@@ -163,7 +166,7 @@ public class SphereController : MonoBehaviour {
                     }
                     else if (lv < 4)
                     {
-                        var fishnetCollider = _currentfs.GetComponentInChildren<SphereCollider>();                       
+                        var fishnetCollider = _currentfs.GetComponentInChildren<SphereCollider>();
                         var colliderCenter = fishnetCollider.transform.position + fishnetCollider.center;
                         var radius = fishnetCollider.radius * fishnetCollider.transform.localScale.x;
                         var fishes = Physics.OverlapSphere(colliderCenter, radius);
@@ -183,6 +186,7 @@ public class SphereController : MonoBehaviour {
                     }
                     else
                     {
+                        /**
                         var fishnetCollider = _currentfs.GetComponentInChildren<SphereCollider>();
                         var colliderCenter = fishnetCollider.transform.position + fishnetCollider.center;
                         var radius = fishnetCollider.radius * fishnetCollider.transform.localScale.x;
@@ -191,8 +195,13 @@ public class SphereController : MonoBehaviour {
                         if (realFishes.Count > 0)
                         {
                             IC.AddFish(realFishes);
-                        }
+                        }*/
+                        wandCapture();
                     }
+                }
+                else
+                {
+                    lineR.SetActive(false);
                 }
             }
             return;
@@ -393,5 +402,38 @@ public class SphereController : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
        // Debug.Log(ThisObj.name +  " hit " + other.gameObject.name);
+    }
+
+    private void wandCapture()
+    {
+        lineR.SetActive(true);
+        lineR.transform.position = ThisObj.transform.position;
+        var lineRenderer = lineR.GetComponent<LineRenderer>();
+        lineRenderer.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
+        lineRenderer.startColor = lineRenderer.endColor = Color.cyan;
+        lineRenderer.startWidth = lineRenderer.endWidth = 0.05f;
+        lineRenderer.SetPosition(0, lineR.transform.position);
+        lineRenderer.SetPosition(1, ThisObj.transform.position + 100 * ThisObj.transform.forward);
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ThisObj.transform.position, ThisObj.transform.forward, out hitInfo, 10))
+        {
+            lineRenderer.SetPosition(1, hitInfo.point);
+            Collider collider = hitInfo.collider;
+            if (collider.gameObject.CompareTag("whale") || collider.gameObject.CompareTag("bob") ||
+                    collider.gameObject.CompareTag("goldfish") || collider.gameObject.CompareTag("shark") ||
+                    collider.gameObject.CompareTag("badfish"))
+            {
+                var realFishes = new List<Collider>();
+                if (CheckIfNameValid(collider.gameObject.name))
+                {
+                    realFishes.Add(collider);
+                }
+                if (realFishes.Count > 0)
+                {
+                    Debug.Log(collider.gameObject.tag);
+                    IC.AddFish(realFishes);
+                }
+            }
+        }
     }
 }

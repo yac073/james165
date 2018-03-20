@@ -14,10 +14,11 @@ public class InventoryController : MonoBehaviour {
 
     private List<SimpleFish> _caughtFishes;
     public FishController FC;
+    public AudioSource CaptureSound;
 	// Use this for initialization
 	void Start () {
         _caughtFishes = new List<SimpleFish>();
-        //DebugPrefix();
+        DebugPrefix();
         Util.OnSwimmingStatusChanged += Util_OnSwimmingStatusChanged;
 	}
 
@@ -105,6 +106,8 @@ public class InventoryController : MonoBehaviour {
             }
             if (canBeCaught)
             {
+                CaptureSound.Play();
+                Debug.Log(CaptureSound.isPlaying);
                 var rand = new System.Random();
                 var lv = (float)(rand.NextDouble() * (Util.ScannerLevel + 1) * 1.5);
                 lv = Mathf.Clamp(lv, 1, 5);

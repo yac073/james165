@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4517207586825752}
   m_Layer: 0
   m_Name: shark2
-  m_TagString: Untagged
+  m_TagString: shark
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 135607258719483884}
   m_Layer: 0
   m_Name: default
-  m_TagString: Untagged
+  m_TagString: shark
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 82711271076103006}
   m_Layer: 0
   m_Name: Audio Source
-  m_TagString: Untagged
+  m_TagString: shark
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

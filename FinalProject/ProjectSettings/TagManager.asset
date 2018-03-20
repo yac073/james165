@@ -7,6 +7,12 @@ TagManager:
   - hasTask
   - Resting
   - cone
+  - badfish
+  - whale
+  - goldfish
+  - bob
+  - shake
+  - shark
   layers:
   - Default
   - TransparentFX

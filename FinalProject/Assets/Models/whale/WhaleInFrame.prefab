@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 111343012925535630}
   m_Layer: 0
   m_Name: humpback_whale_model23
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -337,7 +337,7 @@ GameObject:
   - component: {fileID: 4781455671526854}
   m_Layer: 0
   m_Name: WhaleInFrame
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

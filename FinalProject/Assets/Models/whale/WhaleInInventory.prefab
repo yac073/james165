@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 4356780181370612}
   m_Layer: 0
   m_Name: WhaleInFrame
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 114755175891049798}
   m_Layer: 0
   m_Name: Text
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -341,7 +341,7 @@ GameObject:
   - component: {fileID: 114373637660307782}
   m_Layer: 0
   m_Name: WhaleInInventory
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

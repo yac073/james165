@@ -48,6 +48,11 @@ public class FishController : MonoBehaviour {
         Whale.transform.localScale = new Vector3(2f, 2f, 2f);
         _fishes = new List<AdvanceFish>();
         _sharks = new List<GameObject>();
+        assignTag(BadFish);
+        assignTag(GoldFish);
+        assignTag(Bob);
+        assignTag(Whale);
+        assignTag(Shark);
         _fishList = new List<AdvanceFish> {
             new AdvanceFish{Fish = BadFish, Direction = Vector3.zero, MaxHeight = 35, PosFactor = 1f },
             new AdvanceFish{Fish = BadFish, Direction = Vector3.zero, MaxHeight = 35, PosFactor = 1f },
@@ -274,5 +279,30 @@ public class FishController : MonoBehaviour {
             Destroy(_sharks[i]);
         }
         _sharks.Clear();
+    }
+
+    private void assignTag(GameObject o)
+    {
+        
+        if (o.GetComponentsInChildren<Transform>() != null)
+        {
+            Transform[] tranRenderers =
+            o.GetComponentsInChildren<Transform>();
+            foreach (var tran in tranRenderers)
+            {
+
+                tran.gameObject.tag = o.tag;
+            }
+        }
+        if (o.GetComponentsInChildren<MeshRenderer>() != null)
+        {
+            MeshRenderer[] meshRenderers =
+            o.GetComponentsInChildren<MeshRenderer>();
+            foreach (var mesh in meshRenderers)
+            {
+
+                mesh.gameObject.tag = o.tag;
+            }
+        }
     }
 }

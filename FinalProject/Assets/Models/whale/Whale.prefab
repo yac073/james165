@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4995846006751270}
   m_Layer: 0
   m_Name: Bone007
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +36,7 @@ GameObject:
   - component: {fileID: 4354580622302576}
   m_Layer: 0
   m_Name: Bone015
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,7 +51,7 @@ GameObject:
   - component: {fileID: 4957364240395380}
   m_Layer: 0
   m_Name: Bone024
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -66,7 +66,7 @@ GameObject:
   - component: {fileID: 4304545252314804}
   m_Layer: 0
   m_Name: Bone020
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 4107009733205418}
   m_Layer: 0
   m_Name: Bone016
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 4591630328056764}
   m_Layer: 0
   m_Name: Bone019
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 4251323791777500}
   m_Layer: 0
   m_Name: Bone012
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 4732720744101718}
   m_Layer: 0
   m_Name: Bone001
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 4079165991524548}
   m_Layer: 0
   m_Name: Bone023
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 4667994446014274}
   m_Layer: 0
   m_Name: Bone003
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 4473701090077114}
   m_Layer: 0
   m_Name: Bone011
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 4276592796204800}
   m_Layer: 0
   m_Name: Bone014
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 4656068937547776}
   m_Layer: 0
   m_Name: Bone018
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 4990800562806162}
   m_Layer: 0
   m_Name: Bone004
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 64057912383912482}
   m_Layer: 0
   m_Name: humpback_whale_exp1_0
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 82401586103155712}
   m_Layer: 0
   m_Name: Whale
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 4844467149380746}
   m_Layer: 0
   m_Name: Bone010
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 4004449088869406}
   m_Layer: 0
   m_Name: Bone017
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 4888896671124390}
   m_Layer: 0
   m_Name: Bone021
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -309,7 +309,7 @@ GameObject:
   - component: {fileID: 4798235533141292}
   m_Layer: 0
   m_Name: Bone005
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -324,7 +324,7 @@ GameObject:
   - component: {fileID: 4192712046545624}
   m_Layer: 0
   m_Name: Bone002
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -339,7 +339,7 @@ GameObject:
   - component: {fileID: 4583449607973078}
   m_Layer: 0
   m_Name: Bone006
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -354,7 +354,7 @@ GameObject:
   - component: {fileID: 4542827959836816}
   m_Layer: 0
   m_Name: Bone008
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -369,7 +369,7 @@ GameObject:
   - component: {fileID: 4898312437648938}
   m_Layer: 0
   m_Name: Bone022
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 4583628841500938}
   m_Layer: 0
   m_Name: Bone013
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -400,7 +400,7 @@ GameObject:
   - component: {fileID: 111283965919499238}
   m_Layer: 0
   m_Name: humpback_whale_model_baked_animation
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -415,7 +415,7 @@ GameObject:
   - component: {fileID: 4877017500083812}
   m_Layer: 0
   m_Name: Bone009
-  m_TagString: Untagged
+  m_TagString: whale
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
