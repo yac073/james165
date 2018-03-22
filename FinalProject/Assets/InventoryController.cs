@@ -18,9 +18,21 @@ public class InventoryController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         _caughtFishes = new List<SimpleFish>();
-        DebugPrefix();
+        //DebugPrefix();
         Util.OnSwimmingStatusChanged += Util_OnSwimmingStatusChanged;
+        Util.OnMainVolumnChanged += Util_OnMainVolumnChanged;
+        Util.OnEnvironmentVolumnChanged += Util_OnEnvironmentVolumnChanged;
 	}
+
+    private void Util_OnEnvironmentVolumnChanged(object sender, Util.FloatEventArgs e)
+    {
+        CaptureSound.volume = Util.MainVolumn * Util.EnvironmentVolumn;
+    }
+
+    private void Util_OnMainVolumnChanged(object sender, Util.FloatEventArgs e)
+    {
+        CaptureSound.volume = Util.MainVolumn * Util.EnvironmentVolumn;
+    }
 
     private void DebugPrefix()
     {

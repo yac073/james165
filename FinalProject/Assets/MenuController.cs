@@ -126,27 +126,27 @@ public class MenuController : MonoBehaviour {
                 case "bad fish":
                     var bfimg = Instantiate<GameObject>(BadFishInInventory, InventoryCanvas.transform);
                     ModifyFishInInventoryCanvas(ref x, ref y, fish, bfimg);
-                    _value += 5 * fish.lv;
+                    _value += 5 * fish.lv * fish.num;
                     break;
                 case "Whale":
                     var wimg = Instantiate<GameObject>(WhaleInInventory, InventoryCanvas.transform);
                     ModifyFishInInventoryCanvas(ref x, ref y, fish, wimg);
-                    _value += 100 * fish.lv;
+                    _value += 100 * fish.lv * fish.num;
                     break;
                 case "Goldfish_01":
                     var gfimg = Instantiate<GameObject>(GoldFishInInventory, InventoryCanvas.transform);
                     ModifyFishInInventoryCanvas(ref x, ref y, fish, gfimg);
-                    _value += 1 * fish.lv;
+                    _value += 1 * fish.lv * fish.num;
                     break;
                 case "Seaweed":
                     var swimg = Instantiate<GameObject>(SeaweedInInventory, InventoryCanvas.transform);
                     ModifyFishInInventoryCanvas(ref x, ref y, fish, swimg);
-                    _value += (int) Math.Ceiling(0.5 * fish.lv);
+                    _value += (int) Math.Ceiling(0.5 * fish.lv) * fish.num;
                     break;
                 case "Bob":
                     var bimg = Instantiate<GameObject>(BobInInventory, InventoryCanvas.transform);
                     ModifyFishInInventoryCanvas(ref x, ref y, fish, bimg);
-                    _value += 50 * fish.lv;
+                    _value += 50 * fish.lv * fish.num;
                     break;
             }
         }
@@ -405,10 +405,13 @@ public class MenuController : MonoBehaviour {
 
     private void DebugPreFix()
     {
-        Util.UserName = "aaa";
-        Util.Balance = 1000;
-        Util.BreatherLevel = 4;
-        Util.WeaponLevel = 2;
+        //Util.UserName = "aaa";
+        Util.Balance = 100;
+        //Util.BreatherLevel = 4;
+        //Util.WeaponLevel = 4;
+        //Util.TorchLevel = 4;
+        //Util.ScannerLevel = 4;
+        Util.EnvironmentVolumn = Util.BgmVolumn = Util.MainVolumn = 1f;
     }
 
     private void Util_OnUsingKeyboardStatusChanged(object sender, Util.BoolEventArgs e)

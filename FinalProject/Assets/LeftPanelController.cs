@@ -39,6 +39,7 @@ public class LeftPanelController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        Util.OnUsingKeyboardStatusChanged += Util_OnUsingKeyboardStatusChanged;
         Util.OnMainVolumnChanged += Util_OnMainVolumnChanged;
         Util.OnEnvironmentVolumnChanged += Util_OnEnvironmentVolumnChanged;
         Util.OnBgmVolumnChanged += Util_OnBgmVolumnChanged;
@@ -50,6 +51,11 @@ public class LeftPanelController : MonoBehaviour {
         Util.OnSwimmingStatusChanged += Util_OnSwimmingStatusChanged;
         firstTimeDanger = true;
         firstTimeGameOver = true;
+    }
+
+    private void Util_OnUsingKeyboardStatusChanged(object sender, Util.BoolEventArgs e)
+    {
+        Panel.SetActive(!e.Result);
     }
 
     private void Util_OnBgmVolumnChanged(object sender, Util.FloatEventArgs e)
@@ -173,7 +179,8 @@ public class LeftPanelController : MonoBehaviour {
             Panel.SetActive(false);
         }
         else {
-            Panel.SetActive(true);
+            if (!Util.IsUsingKeyboard)
+                Panel.SetActive(true);
         }
 
         if (o2inlung == 0)

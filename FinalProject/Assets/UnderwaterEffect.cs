@@ -9,6 +9,7 @@ public class UnderwaterEffect : MonoBehaviour
     //Define variable    
     public Camera cam;
     public Transform User;
+    public Light Light;
 
     //The scene's default fog settings
     private bool defaultFog;
@@ -37,7 +38,9 @@ public class UnderwaterEffect : MonoBehaviour
             //cam.backgroundColor = Color.clear;
             RenderSettings.fog = true;            
             RenderSettings.fogColor = Color.Lerp(new Color(0, 0.4f, 0.7f, 0.6f), Color.black, (55 - User.position.y) / 55);
-            RenderSettings.fogDensity = Mathf.Lerp(0.02f, 0.2f, (55 - User.position.y) / 55);
+            var torch = Util.TorchLevel + 1;
+            RenderSettings.fogDensity = Mathf.Lerp(0.02f / torch, 0.2f / torch, (55 - User.position.y) / 55);
+            Light.intensity = Mathf.Lerp(Util.TorchLevel / 8.0f, 1f, User.position.y / 55);
             //RenderSettings.fogDensity = Mathf.Lerp(0.001f, 0.01f, (55 - User.position.y) / 55);
             RenderSettings.skybox = noSkybox;
         }
@@ -47,6 +50,7 @@ public class UnderwaterEffect : MonoBehaviour
             RenderSettings.fogColor = defaultFogColor;
             RenderSettings.fogDensity = defaultFogDensity;
             RenderSettings.skybox = defaultSkybox;
+            Light.intensity = 1;
         }
     }
 }

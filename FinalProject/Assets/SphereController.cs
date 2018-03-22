@@ -54,10 +54,15 @@ public class SphereController : MonoBehaviour {
     public GameObject FSW;
 
     private GameObject _currentfs;
-    private GameObject lineR;
+    public GameObject lineR;
 
     public InventoryController IC;
     public AudioSource BiteAudio;
+    GradientColorKey[] gck;
+    Gradient g;
+    public Material StarMaterial;
+    public Light StarLight;
+
     void Start () {
         if (ThisObj != null)
         {
@@ -79,9 +84,39 @@ public class SphereController : MonoBehaviour {
         _pressTime = 0;
         _inputLock = 0f;
         _activeCollider = null;
-        lineR = new GameObject();
-        lineR.AddComponent<LineRenderer>();
-        lineR.SetActive(false);
+        if (_isRight)
+        {
+            lineR.transform.SetParent(FSW.transform);
+            lineR.transform.localPosition = new Vector3(0, -0.03f, 0.2194f);
+            lineR.transform.localRotation = Quaternion.identity;
+            var lineRenderer = lineR.GetComponent<LineRenderer>();
+            lineRenderer.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
+            lineRenderer.positionCount = 7;
+            GradientAlphaKey[] gak;
+            g = new Gradient();
+            gck = new GradientColorKey[7];
+            for (int i = 0; i < 7; i++)
+            {
+                var red = Mathf.Sin(.3f * i + 0) * 127 + 128;
+                var grn = Mathf.Sin(.3f * i + 2) * 127 + 128;
+                var blu = Mathf.Sin(.3f * i + 4) * 127 + 128;
+                gck[i].color = new Color(red / 255f, grn / 255f, blu / 255f);
+                gck[i].time = i / 6.0f;
+            }
+            gak = new GradientAlphaKey[3];
+            gak[0].alpha = 0.0F;
+            gak[0].time = 0.0F;
+            gak[1].alpha = 1.0F;
+            gak[1].time = 0.1F;
+            gak[2].alpha = 1.0F;
+            gak[2].time = 1.0F;
+            g.SetKeys(gck, gak);
+            lineRenderer.colorGradient = g;
+
+            //lineRenderer.startColor = lineRenderer.endColor = Color.cyan;
+            lineRenderer.startWidth = lineRenderer.endWidth = 0.05f;
+            lineR.SetActive(false);
+        }
     }
 
     private void Util_OnMainVolumnChanged(object sender, Util.FloatEventArgs e)
@@ -196,7 +231,7 @@ public class SphereController : MonoBehaviour {
                         {
                             IC.AddFish(realFishes);
                         }*/
-                        wandCapture();
+                        WandCapture();
                     }
                 }
                 else
@@ -326,6 +361,16 @@ public class SphereController : MonoBehaviour {
         return colliders;
     }
 
+    private List<Collider> RemoveBadColliders(RaycastHit[] rc)
+    {
+        var cc = new Collider[rc.Length];
+        for (int i = 0; i < cc.Length; i++)
+        {
+            cc[i] = rc[i].collider;
+        }
+        return RemoveBadColliders(cc);
+    }
+
     private void HighlightSelectedObj(List<Collider> colliders)
     {
         var oldCollider = _activeCollider;
@@ -404,35 +449,37 @@ public class SphereController : MonoBehaviour {
        // Debug.Log(ThisObj.name +  " hit " + other.gameObject.name);
     }
 
-    private void wandCapture()
+    private void WandCapture()
     {
         lineR.SetActive(true);
-        lineR.transform.position = ThisObj.transform.position;
         var lineRenderer = lineR.GetComponent<LineRenderer>();
-        lineRenderer.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
-        lineRenderer.startColor = lineRenderer.endColor = Color.cyan;
-        lineRenderer.startWidth = lineRenderer.endWidth = 0.05f;
-        lineRenderer.SetPosition(0, lineR.transform.position);
-        lineRenderer.SetPosition(1, ThisObj.transform.position + 100 * ThisObj.transform.forward);
-        RaycastHit hitInfo;
-        if (Physics.Raycast(ThisObj.transform.position, ThisObj.transform.forward, out hitInfo, 10))
+        gck = new GradientColorKey[7];
+        for (int i = 0; i < 7; i++)
         {
-            lineRenderer.SetPosition(1, hitInfo.point);
-            Collider collider = hitInfo.collider;
-            if (collider.gameObject.CompareTag("whale") || collider.gameObject.CompareTag("bob") ||
-                    collider.gameObject.CompareTag("goldfish") || collider.gameObject.CompareTag("shark") ||
-                    collider.gameObject.CompareTag("badfish"))
+            var red = Mathf.Sin(.3f * i + Time.time) * 127 + 128;
+            var grn = Mathf.Sin(.3f * i + Time.time + 2) * 127 + 128;
+            var blu = Mathf.Sin(.3f * i + Time.time + 4) * 127 + 128;
+            gck[i].color = new Color(red / 255f, grn / 255f, blu / 255f);
+            if (i == 0)
             {
-                var realFishes = new List<Collider>();
-                if (CheckIfNameValid(collider.gameObject.name))
-                {
-                    realFishes.Add(collider);
-                }
-                if (realFishes.Count > 0)
-                {
-                    Debug.Log(collider.gameObject.tag);
-                    IC.AddFish(realFishes);
-                }
+                StarLight.color = StarMaterial.color = new Color(red / 255f, grn / 255f, blu / 255f);                
+            }
+            gck[i].time = i / 6.0f;
+        }
+        g.colorKeys = gck;
+        lineRenderer.colorGradient = g;
+        for (int i = 0; i < 7; i++)
+        {
+            lineRenderer.SetPosition(i, lineR.transform.position + i * _currentfs.transform.forward);
+        }
+        var colliders = Physics.RaycastAll(_currentfs.transform.position, _currentfs.transform.forward, 7);
+        if (colliders!= null && colliders.Length > 0)
+        {
+            //lineRenderer.SetPosition(1, hitInfo.point);
+            var realFishes = RemoveBadColliders(colliders);
+            if (realFishes.Count > 0)
+            {
+                IC.AddFish(realFishes);
             }
         }
     }
